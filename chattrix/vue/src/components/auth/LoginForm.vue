@@ -1,0 +1,213 @@
+<template>
+  <div class="login-form">
+    <h2 class="form-title">用户登录</h2>
+    <form @submit.prevent="handleLogin">
+      <div class="form-group">
+        <label for="username" class="form-label">用户名</label>
+        <input
+          id="username"
+          v-model="form.username"
+          type="text"
+          class="form-input"
+          placeholder="请输入用户名"
+          required
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="password" class="form-label">密码</label>
+        <input
+          id="password"
+          v-model="form.password"
+          type="password"
+          class="form-input"
+          placeholder="请输入密码"
+          required
+        />
+      </div>
+      
+      <button 
+        type="submit" 
+        class="submit-button"
+        :disabled="isLoading"
+      >
+        {{ isLoading ? '登录中...' : '登录' }}
+      </button>
+    </form>
+    
+    <div class="form-footer">
+      <p class="redirect-text">
+        还没有账号？
+        <router-link to="/register" class="redirect-link">立即注册</router-link>
+      </p>
+    </div>
+  </div>
+  
+  <!-- Toast 提示组件 -->
+  <Toast 
+    v-if="toastMessage"
+    :message="toastMessage"
+    :type="toastType"
+    @close="closeToast"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '../../store/auth'
+import type { LoginRequest } from '../../api/auth'
+import Toast from '../utils/toast.vue'
+
+// 表单数据
+const form = reactive<LoginRequest>({
+  username: '',
+  password: ''
+})
+
+// 状态管理
+const authStore = useAuthStore()
+const router = useRouter()
+
+// 组件状态
+const isLoading = ref(false)
+const toastMessage = ref('')
+const toastType = ref<'success' | 'error'>('error')
+
+// 显示 Toast 提示
+const showToast = (message: string, type: 'success' | 'error' = 'error') => {
+  toastMessage.value = message
+  toastType.value = type
+}
+
+// 关闭 Toast 提示
+const closeToast = () => {
+  toastMessage.value = ''
+}
+
+// 处理登录
+const handleLogin = async () => {
+  // 重置 Toast 消息
+  closeToast()
+  
+  // 基本验证
+  if (!form.username.trim()) {
+    showToast('请输入用户名')
+    return
+  }
+  
+  if (!form.password) {
+    showToast('请输入密码')
+    return
+  }
+  
+  isLoading.value = true
+  
+  try {
+    const result = await authStore.login(form)
+    
+    if (result.success) {
+      // 登录成功，显示成功提示
+      showToast('登录成功', 'success')
+      // 添加2秒延迟再跳转到聊天页面，确保提示框有时间显示
+      setTimeout(() => {
+        router.push('/chat')
+      }, 2000)
+    } else {
+      showToast(result.error || '登录失败')
+    }
+  } catch (error) {
+    showToast('登录过程中发生错误')
+    console.error('Login error:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+</script>
+
+<style scoped>
+.login-form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #409eff;
+  box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.2);
+}
+
+.submit-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #409eff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #66b1ff;
+}
+
+.submit-button:disabled {
+  background-color: #a0cfff;
+  cursor: not-allowed;
+}
+
+.form-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.redirect-text {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.redirect-link {
+  color: #409eff;
+  text-decoration: none;
+}
+
+.redirect-link:hover {
+  text-decoration: underline;
+}
+</style>
