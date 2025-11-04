@@ -1,0 +1,47 @@
+# 使用官方 Python 运行时作为基础镜像
+FROM python:3.11-slim-bullseye
+
+# 设置环境变量
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    DJANGO_ENV=production
+
+# 设置工作目录
+WORKDIR /app
+
+# 安装系统依赖 - 使用清华源
+RUN echo "deb http://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free" > /etc/apt/sources.list && \
+    echo "deb http://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free" >> /etc/apt/sources.list && \
+    apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    python3-dev \
+    curl \
+    netcat-openbsd \
+    && rm -rf /var/lib/apt/lists/*
+
+# 复制 requirements.txt 并安装 Python 依赖
+COPY requirements.txt .
+RUN pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple&& \
+    pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# 复制项目文件
+COPY . .
+
+
+# 创建静态文件目录和媒体文件目录
+RUN mkdir -p staticfiles media
+
+
+
+# 暴露端口
+EXPOSE 8000
+
+
+
+# 启动命令
+# 在启动命令前添加静态文件收集
+CMD ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py migrate && daphne -b 0.0.0.0 -p 8000 chattrix.asgi:application"]

@@ -1,0 +1,1995 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /api/accounts/search/:
+    get:
+      operationId: listSearchUsers
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+      - api
+  /api/accounts/getprofile/:
+    get:
+      operationId: listUser_get_Profiles
+      description: "\u83B7\u53D6\u7528\u6237\u4E2A\u4EBA\u8D44\u6599"
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+      - api
+  /api/friends/friends/:
+    get:
+      operationId: listFriends
+      description: "\u597D\u53CB\u5173\u7CFB\u89C6\u56FE\u96C6"
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Friend'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createFriend
+      description: "\u597D\u53CB\u5173\u7CFB\u89C6\u56FE\u96C6"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Friend'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Friend'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Friend'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friend'
+          description: ''
+      tags:
+      - api
+  /api/friends/friends/{id}/:
+    get:
+      operationId: retrieveFriend
+      description: "\u597D\u53CB\u5173\u7CFB\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friend'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateFriend
+      description: "\u597D\u53CB\u5173\u7CFB\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Friend'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Friend'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Friend'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friend'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateFriend
+      description: "\u597D\u53CB\u5173\u7CFB\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Friend'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Friend'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Friend'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friend'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyFriend
+      description: "\u597D\u53CB\u5173\u7CFB\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/friends/requests/:
+    get:
+      operationId: listFriendRequests
+      description: "\u597D\u53CB\u8BF7\u6C42\u89C6\u56FE\u96C6"
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FriendRequest'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createFriendRequest
+      description: "\u597D\u53CB\u8BF7\u6C42\u89C6\u56FE\u96C6"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendRequest'
+          description: ''
+      tags:
+      - api
+  /api/friends/requests/{id}/:
+    get:
+      operationId: retrieveFriendRequest
+      description: "\u597D\u53CB\u8BF7\u6C42\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendRequest'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateFriendRequest
+      description: "\u597D\u53CB\u8BF7\u6C42\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendRequest'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateFriendRequest
+      description: "\u597D\u53CB\u8BF7\u6C42\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendRequest'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyFriendRequest
+      description: "\u597D\u53CB\u8BF7\u6C42\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/friends/groups/:
+    get:
+      operationId: listFriendGroups
+      description: "\u597D\u53CB\u5206\u7EC4\u89C6\u56FE\u96C6"
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FriendGroup'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createFriendGroup
+      description: "\u597D\u53CB\u5206\u7EC4\u89C6\u56FE\u96C6"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendGroup'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendGroup'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendGroup'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendGroup'
+          description: ''
+      tags:
+      - api
+  /api/friends/groups/{id}/:
+    get:
+      operationId: retrieveFriendGroup
+      description: "\u597D\u53CB\u5206\u7EC4\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendGroup'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateFriendGroup
+      description: "\u597D\u53CB\u5206\u7EC4\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendGroup'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendGroup'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendGroup'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendGroup'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateFriendGroup
+      description: "\u597D\u53CB\u5206\u7EC4\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendGroup'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendGroup'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendGroup'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendGroup'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyFriendGroup
+      description: "\u597D\u53CB\u5206\u7EC4\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/friends/groups/{id}/members/:
+    get:
+      operationId: membersFriendGroup
+      description: "\u83B7\u53D6\u5206\u7EC4\u4E2D\u7684\u597D\u53CB\u5173\u7CFB"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendGroup'
+          description: ''
+      tags:
+      - api
+  /api/friends/group-memberships/:
+    get:
+      operationId: listFriendGroupMemberships
+      description: "\u597D\u53CB\u5206\u7EC4\u6210\u5458\u89C6\u56FE\u96C6"
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FriendGroupMembership'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createFriendGroupMembership
+      description: "\u597D\u53CB\u5206\u7EC4\u6210\u5458\u89C6\u56FE\u96C6"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendGroupMembership'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendGroupMembership'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendGroupMembership'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendGroupMembership'
+          description: ''
+      tags:
+      - api
+  /api/friends/group-memberships/{id}/:
+    get:
+      operationId: retrieveFriendGroupMembership
+      description: "\u597D\u53CB\u5206\u7EC4\u6210\u5458\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendGroupMembership'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateFriendGroupMembership
+      description: "\u597D\u53CB\u5206\u7EC4\u6210\u5458\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendGroupMembership'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendGroupMembership'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendGroupMembership'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendGroupMembership'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateFriendGroupMembership
+      description: "\u597D\u53CB\u5206\u7EC4\u6210\u5458\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendGroupMembership'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendGroupMembership'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendGroupMembership'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendGroupMembership'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyFriendGroupMembership
+      description: "\u597D\u53CB\u5206\u7EC4\u6210\u5458\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/friends/nicknames/:
+    get:
+      operationId: listFriendNicknames
+      description: "\u597D\u53CB\u5907\u6CE8\u89C6\u56FE\u96C6"
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FriendNickname'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createFriendNickname
+      description: "\u597D\u53CB\u5907\u6CE8\u89C6\u56FE\u96C6"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendNickname'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendNickname'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendNickname'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendNickname'
+          description: ''
+      tags:
+      - api
+  /api/friends/nicknames/{id}/:
+    get:
+      operationId: retrieveFriendNickname
+      description: "\u597D\u53CB\u5907\u6CE8\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendNickname'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateFriendNickname
+      description: "\u597D\u53CB\u5907\u6CE8\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendNickname'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendNickname'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendNickname'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendNickname'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateFriendNickname
+      description: "\u597D\u53CB\u5907\u6CE8\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendNickname'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendNickname'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendNickname'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendNickname'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyFriendNickname
+      description: "\u597D\u53CB\u5907\u6CE8\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/friends/blocks/:
+    get:
+      operationId: listFriendBlocks
+      description: "\u597D\u53CB\u5C4F\u853D\u89C6\u56FE\u96C6"
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FriendBlock'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createFriendBlock
+      description: "\u597D\u53CB\u5C4F\u853D\u89C6\u56FE\u96C6"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendBlock'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendBlock'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendBlock'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendBlock'
+          description: ''
+      tags:
+      - api
+  /api/friends/blocks/{id}/:
+    get:
+      operationId: retrieveFriendBlock
+      description: "\u597D\u53CB\u5C4F\u853D\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendBlock'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateFriendBlock
+      description: "\u597D\u53CB\u5C4F\u853D\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendBlock'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendBlock'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendBlock'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendBlock'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateFriendBlock
+      description: "\u597D\u53CB\u5C4F\u853D\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendBlock'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendBlock'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendBlock'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendBlock'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyFriendBlock
+      description: "\u597D\u53CB\u5C4F\u853D\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/chat/rooms/:
+    get:
+      operationId: listChatRooms
+      description: "\u804A\u5929\u5BA4\u57FA\u672C\u64CD\u4F5C\u89C6\u56FE\u96C6\n\
+        \u804C\u8D23\uFF1A\u5904\u7406\u804A\u5929\u5BA4\u7684\u521B\u5EFA\u3001\u68C0\
+        \u7D22\u3001\u66F4\u65B0\u548C\u9500\u6BC1\u64CD\u4F5C"
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChatRoom'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createChatRoom
+      description: "\u521B\u5EFA\u804A\u5929\u5BA4\n\u79C1\u804A: \u5982\u679C\u4E24\
+        \u4E2A\u7528\u6237\u4E4B\u95F4\u5DF2\u7ECF\u5B58\u5728\u79C1\u804A\uFF0C\u5219\
+        \u8FD4\u56DE\u5DF2\u5B58\u5728\u7684\u804A\u5929\u5BA4\n\u7FA4\u804A: \u521B\
+        \u5EFA\u65B0\u7684\u7FA4\u804A"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoom'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChatRoom'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChatRoom'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+          description: ''
+      tags:
+      - api
+  /api/chat/rooms/{id}/:
+    get:
+      operationId: retrieveChatRoom
+      description: "\u804A\u5929\u5BA4\u57FA\u672C\u64CD\u4F5C\u89C6\u56FE\u96C6\n\
+        \u804C\u8D23\uFF1A\u5904\u7406\u804A\u5929\u5BA4\u7684\u521B\u5EFA\u3001\u68C0\
+        \u7D22\u3001\u66F4\u65B0\u548C\u9500\u6BC1\u64CD\u4F5C"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateChatRoom
+      description: "\u804A\u5929\u5BA4\u57FA\u672C\u64CD\u4F5C\u89C6\u56FE\u96C6\n\
+        \u804C\u8D23\uFF1A\u5904\u7406\u804A\u5929\u5BA4\u7684\u521B\u5EFA\u3001\u68C0\
+        \u7D22\u3001\u66F4\u65B0\u548C\u9500\u6BC1\u64CD\u4F5C"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoom'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChatRoom'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChatRoom'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateChatRoom
+      description: "\u804A\u5929\u5BA4\u57FA\u672C\u64CD\u4F5C\u89C6\u56FE\u96C6\n\
+        \u804C\u8D23\uFF1A\u5904\u7406\u804A\u5929\u5BA4\u7684\u521B\u5EFA\u3001\u68C0\
+        \u7D22\u3001\u66F4\u65B0\u548C\u9500\u6BC1\u64CD\u4F5C"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoom'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChatRoom'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChatRoom'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyChatRoom
+      description: "\u804A\u5929\u5BA4\u57FA\u672C\u64CD\u4F5C\u89C6\u56FE\u96C6\n\
+        \u804C\u8D23\uFF1A\u5904\u7406\u804A\u5929\u5BA4\u7684\u521B\u5EFA\u3001\u68C0\
+        \u7D22\u3001\u66F4\u65B0\u548C\u9500\u6BC1\u64CD\u4F5C"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/chat/room-search/search-public/:
+    get:
+      operationId: searchPublicChatRoomSearchViewSet
+      description: "\u641C\u7D22\u516C\u5F00\u7684\u7FA4\u804A"
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/chat/join-requests/:
+    get:
+      operationId: listChatRoomJoinRequests
+      description: "\u804A\u5929\u5BA4\u52A0\u5165\u8BF7\u6C42\u89C6\u56FE\u96C6"
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChatRoomJoinRequest'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createChatRoomJoinRequest
+      description: "\u804A\u5929\u5BA4\u52A0\u5165\u8BF7\u6C42\u89C6\u56FE\u96C6"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoomJoinRequest'
+          description: ''
+      tags:
+      - api
+  /api/chat/join-requests/{id}/:
+    get:
+      operationId: retrieveChatRoomJoinRequest
+      description: "\u804A\u5929\u5BA4\u52A0\u5165\u8BF7\u6C42\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoomJoinRequest'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateChatRoomJoinRequest
+      description: "\u804A\u5929\u5BA4\u52A0\u5165\u8BF7\u6C42\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoomJoinRequest'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateChatRoomJoinRequest
+      description: "\u804A\u5929\u5BA4\u52A0\u5165\u8BF7\u6C42\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoomJoinRequest'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyChatRoomJoinRequest
+      description: "\u804A\u5929\u5BA4\u52A0\u5165\u8BF7\u6C42\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/chat/messages/:
+    get:
+      operationId: listMessages
+      description: "\u83B7\u53D6\u6D88\u606F\u5217\u8868\uFF0C\u652F\u6301\u6309\u804A\
+        \u5929\u5BA4\u7B5B\u9009"
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createMessage
+      description: "\u521B\u5EFA\u6D88\u606F"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Message'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+      tags:
+      - api
+  /api/chat/messages/unread-count/:
+    get:
+      operationId: unreadCountMessage
+      description: "\u83B7\u53D6\u672A\u8BFB\u6D88\u606F\u6570\u91CF"
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+      tags:
+      - api
+  /api/chat/messages/{id}/:
+    get:
+      operationId: retrieveMessage
+      description: "\u6D88\u606F\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateMessage
+      description: "\u6D88\u606F\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Message'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateMessage
+      description: "\u6D88\u606F\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Message'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyMessage
+      description: "\u6D88\u606F\u89C6\u56FE\u96C6"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/accounts/register/:
+    post:
+      operationId: createUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegistration'
+          description: ''
+      tags:
+      - api
+  /api/accounts/login/:
+    post:
+      operationId: createLogin
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/accounts/refresh/:
+    post:
+      operationId: createRefresh
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/accounts/logout/:
+    post:
+      operationId: createLogout
+      description: "\u5B9E\u73B0\u767B\u51FA\u529F\u80FD"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/friends/requests/{id}/accept/:
+    post:
+      operationId: acceptFriendRequest
+      description: "\u63A5\u53D7\u597D\u53CB\u8BF7\u6C42"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendRequest'
+          description: ''
+      tags:
+      - api
+  /api/friends/requests/{id}/reject/:
+    post:
+      operationId: rejectFriendRequest
+      description: "\u62D2\u7EDD\u597D\u53CB\u8BF7\u6C42"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FriendRequest'
+          description: ''
+      tags:
+      - api
+  /api/chat/room-membership/{id}/add-member/:
+    post:
+      operationId: addMemberChatRoomMembershipViewSet
+      description: "\u6DFB\u52A0\u6210\u5458\u5230\u804A\u5929\u5BA4"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/chat/room-membership/{id}/remove-member/:
+    post:
+      operationId: removeMemberChatRoomMembershipViewSet
+      description: "\u4ECE\u804A\u5929\u5BA4\u79FB\u9664\u6210\u5458"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/chat/join-requests/{id}/approve/:
+    post:
+      operationId: approveChatRoomJoinRequest
+      description: "\u6279\u51C6\u52A0\u5165\u8BF7\u6C42"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoomJoinRequest'
+          description: ''
+      tags:
+      - api
+  /api/chat/join-requests/{id}/cancel/:
+    post:
+      operationId: cancelChatRoomJoinRequest
+      description: "\u64A4\u9500\u52A0\u5165\u8BF7\u6C42"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoomJoinRequest'
+          description: ''
+      tags:
+      - api
+  /api/chat/join-requests/{id}/reject/:
+    post:
+      operationId: rejectChatRoomJoinRequest
+      description: "\u62D2\u7EDD\u52A0\u5165\u8BF7\u6C42"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoomJoinRequest'
+          description: ''
+      tags:
+      - api
+  /api/chat/join-requests/{id}/request-join/:
+    post:
+      operationId: requestJoinChatRoomJoinRequest
+      description: "\u8BF7\u6C42\u52A0\u5165\u804A\u5929\u5BA4"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChatRoomJoinRequest'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoomJoinRequest'
+          description: ''
+      tags:
+      - api
+  /api/chat/messages/mark-as-read/:
+    post:
+      operationId: markAsReadMessage
+      description: "\u6807\u8BB0\u6D88\u606F\u4E3A\u5DF2\u8BFB"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Message'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+      tags:
+      - api
+  /api/accounts/profile/:
+    patch:
+      operationId: partialUpdateUserProfile
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+components:
+  schemas:
+    Friend:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        friend:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        friend_info:
+          type: string
+          readOnly: true
+      required:
+      - friend
+    FriendRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        receiver:
+          type: string
+        status:
+          enum:
+          - pending
+          - accepted
+          - rejected
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - receiver
+    FriendGroup:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - name
+    FriendGroupMembership:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        group:
+          type: integer
+        friend:
+          type: integer
+      required:
+      - group
+      - friend
+    FriendNickname:
+      type: object
+      properties:
+        nickname:
+          type: string
+          maxLength: 20
+    FriendBlock:
+      type: object
+      properties:
+        is_blocked:
+          type: boolean
+    ChatRoom:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        type:
+          enum:
+          - private
+          - group
+          type: string
+          readOnly: true
+        members:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string
+                    description: Required. 150 characters or fewer. Letters, digits
+                      and @/./+/-/_ only.
+                    pattern: ^[\w.@+-]+\z
+                    maxLength: 150
+                  user_avatar:
+                    type: string
+                    format: binary
+                  user_status:
+                    type: string
+                required:
+                - username
+                - user_avatar
+                readOnly: true
+              is_admin:
+                type: boolean
+              joined_at:
+                type: string
+                format: date-time
+                readOnly: true
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_public:
+          type: boolean
+        join_permission:
+          enum:
+          - open
+          - approval
+          type: string
+    ChatRoomJoinRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        chat_room:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            name:
+              type: string
+              maxLength: 100
+            type:
+              enum:
+              - private
+              - group
+              type: string
+              readOnly: true
+            members:
+              type: array
+              items:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      username:
+                        type: string
+                        description: Required. 150 characters or fewer. Letters, digits
+                          and @/./+/-/_ only.
+                        pattern: ^[\w.@+-]+\z
+                        maxLength: 150
+                      user_avatar:
+                        type: string
+                        format: binary
+                      user_status:
+                        type: string
+                    required:
+                    - username
+                    - user_avatar
+                    readOnly: true
+                  is_admin:
+                    type: boolean
+                  joined_at:
+                    type: string
+                    format: date-time
+                    readOnly: true
+              readOnly: true
+            created_at:
+              type: string
+              format: date-time
+              readOnly: true
+            updated_at:
+              type: string
+              format: date-time
+              readOnly: true
+            is_public:
+              type: boolean
+            join_permission:
+              enum:
+              - open
+              - approval
+              type: string
+          readOnly: true
+        requester:
+          type: object
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+              description: Required. 150 characters or fewer. Letters, digits and
+                @/./+/-/_ only.
+              pattern: ^[\w.@+-]+\z
+              maxLength: 150
+            user_avatar:
+              type: string
+              format: binary
+            user_status:
+              type: string
+          required:
+          - username
+          - user_avatar
+          readOnly: true
+        status:
+          enum:
+          - pending
+          - approved
+          - rejected
+          type: string
+          readOnly: true
+        message:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        chat_room:
+          type: string
+        sender:
+          type: object
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+              description: Required. 150 characters or fewer. Letters, digits and
+                @/./+/-/_ only.
+              pattern: ^[\w.@+-]+\z
+              maxLength: 150
+            user_avatar:
+              type: string
+              format: binary
+            user_status:
+              type: string
+          required:
+          - username
+          - user_avatar
+          readOnly: true
+        content:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+          readOnly: true
+        is_read:
+          type: boolean
+          readOnly: true
+      required:
+      - chat_room
+      - content
+    UserRegistration:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+\z
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        password_confirm:
+          type: string
+          writeOnly: true
+      required:
+      - username
+      - password
+      - password_confirm
