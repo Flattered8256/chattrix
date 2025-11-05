@@ -178,7 +178,7 @@ if DJANGO_ENV == 'production':
     }
 
 
-    CSRF_TRUSTED_ORIGINS = ['http://www.jianglongbin.xyz:3000', 'https://www.jianglongbin.xyz:3000']
+    CSRF_TRUSTED_ORIGINS = ['http://www.chattrix.com', 'https://www.chattrix.com']
 else:
     # 开发环境使用内存通道层
     CHANNEL_LAYERS = {
