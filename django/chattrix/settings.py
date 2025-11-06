@@ -187,5 +187,5 @@ else:
         }
     }
 
-    CSRF_TRUSTED_ORIGINS = ['http://192.168.31.224:4173', 'http://localhost:4173', 'http://127.0.0.1:4173']
+    CSRF_TRUSTED_ORIGINS = ['http://192.168.31.224:5173', 'http://localhost:4173', 'http://127.0.0.1:4173']
 
