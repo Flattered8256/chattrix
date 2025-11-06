@@ -479,10 +479,12 @@ const processCachedMessages = async (roomId: number) => {
       // 合并所有新房间
       const allNewRooms = [...newPrivateRooms, ...newGroupRooms];
       
-      // 为新房间添加未读计数
+      // 为新房间添加未读计数并连接WebSocket
       for (const room of allNewRooms) {
         // 为新房间初始化未读消息计数
         incrementUnreadMessages(room.id);
+        // 为新房间建立WebSocket连接
+        connectToChatRoomWebSocket(room.id);
       }
       
       return { success: true, newRooms: allNewRooms };
