@@ -14,7 +14,7 @@
 .auth-layout {
   min-height: 100vh;
   width: 100%;
-  background-color: #e3f2fd; /* 浅蓝色背景 */
+  background-color: var(--color-bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
