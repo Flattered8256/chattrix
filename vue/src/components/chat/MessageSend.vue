@@ -1,11 +1,7 @@
 <template>
   <div class="message-sender">
     <!-- 左侧上传 -->
-    <button
-      class="upload-button"
-      :disabled="disabled"
-      @click="openFileSelect"
-    >
+    <button class="upload-button" :disabled="disabled" @click="openFileSelect">
       <img src="../../assets/添加.svg" class="upload-icon" />
     </button>
 
@@ -34,65 +30,65 @@
       :disabled="disabled || !canSend"
       @click="doSendText"
     >
-      {{ disabled ? '发送中…' : '发送' }}
+      {{ disabled ? "发送中…" : "发送" }}
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed } from "vue";
 
 /* ========== 组件接口 ========== */
 defineProps<{
-  disabled?: boolean   // 父级可强制禁用
-}>()
+  disabled?: boolean; // 父级可强制禁用
+}>();
 
 const emit = defineEmits<{
-  'send-text': [content: string]              // 纯文本
-  'send-file': [file: File, type: MsgType]    // 文件
-}>()
+  "send-text": [content: string]; // 纯文本
+  "send-file": [file: File, type: MsgType]; // 文件
+}>();
 
-type MsgType = 'text' | 'image' | 'video' | 'file'
+type MsgType = "text" | "image" | "video" | "file";
 
 /* ========== 内部状态 ========== */
-const text = ref('')
-const fileInput = ref<HTMLInputElement>()
+const text = ref("");
+const fileInput = ref<HTMLInputElement>();
 
-const canSend = computed(() => text.value.trim().length > 0)
+const canSend = computed(() => text.value.trim().length > 0);
 
 /* ========== 文本发送 ========== */
 function doSendText() {
-  if (!canSend.value) return
-  emit('send-text', text.value.trim())
-  text.value = '' // 父级确认成功后自行滚动等
+  if (!canSend.value) return;
+  emit("send-text", text.value.trim());
+  text.value = ""; // 父级确认成功后自行滚动等
 }
 
 function onKeyDown(e: KeyboardEvent) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault()
-    doSendText()
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    doSendText();
   }
 }
 
 /* ========== 文件发送 ========== */
 function openFileSelect() {
-  fileInput.value?.click()
+  fileInput.value?.click();
 }
 
 function onFileChange(e: Event) {
-  const target = e.target as HTMLInputElement
-  const file = target.files?.[0]
-  if (!file) return
+  const target = e.target as HTMLInputElement;
+  const file = target.files?.[0];
+  if (!file) return;
 
   // 简单类型判断
-  let msgType: MsgType = 'file'
-  if (file.type.startsWith('image/')) msgType = 'image'
-  else if (file.type.startsWith('video/')) msgType = 'video'
+  let msgType: MsgType = "file";
+  if (file.type.startsWith("image/")) msgType = "image";
+  else if (file.type.startsWith("video/")) msgType = "video";
 
-  emit('send-file', file, msgType)
+  emit("send-file", file, msgType);
 
   // 清空 input，允许连续选同一个文件
-  target.value = ''
+  target.value = "";
 }
 </script>
 
@@ -102,8 +98,8 @@ function onFileChange(e: Event) {
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  border-top: 1px solid #e1e8ed;
-  background-color: #f5f7fa;
+  border-top: 1px solid var(--color-border-primary);
+  background-color: var(--color-bg-secondary);
 }
 
 .hidden {
@@ -122,10 +118,11 @@ function onFileChange(e: Event) {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  color: var(--color-text-primary);
 }
 
 .upload-button:hover:not(:disabled) {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--color-bg-hover);
 }
 
 .upload-button:disabled {
@@ -142,7 +139,7 @@ function onFileChange(e: Event) {
 .message-input {
   flex: 1;
   padding: 10px 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-border-primary);
   border-radius: 20px;
   font-size: 14px;
   outline: none;
@@ -152,22 +149,24 @@ function onFileChange(e: Event) {
   overflow-y: auto;
   font-family: inherit;
   line-height: 1.4;
+  background-color: var(--color-input-bg);
+  color: var(--color-text-primary);
 }
 
 .message-input:focus {
-  border-color: #007bff;
+  border-color: var(--color-primary);
 }
 
 .message-input:disabled {
-  background-color: #f5f5f5;
+  background-color: var(--color-bg-tertiary);
   cursor: not-allowed;
 }
 
 /* 发送按钮样式 */
 .send-button {
   padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
   border: none;
   border-radius: 20px;
   font-size: 14px;
@@ -178,11 +177,12 @@ function onFileChange(e: Event) {
 }
 
 .send-button:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: var(--color-primary-hover);
 }
 
 .send-button:disabled {
-  background-color: #cccccc;
+  background-color: var(--color-bg-tertiary);
   cursor: not-allowed;
+  opacity: 0.6;
 }
 </style>

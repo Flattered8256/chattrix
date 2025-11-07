@@ -1,149 +1,162 @@
 <script setup lang="ts">
-import { computed, ref,watch } from 'vue'
-import { useFriendsStore } from '../../store/friends'
+import { computed, ref, watch } from "vue";
+import { useFriendsStore } from "../../store/friends";
 
-import ExpandIcon from '../../assets/展开.svg' // 导入展开图标
-import AvatarLook from '../auth/Avatar_look.vue' // 导入AvatarLook组件
-import Toast from '../utils/toast.vue' // 导入Toast组件
+import ExpandIcon from "../../assets/展开.svg"; // 导入展开图标
+import AvatarLook from "../auth/Avatar_look.vue"; // 导入AvatarLook组件
+import Toast from "../utils/toast.vue"; // 导入Toast组件
 
 // 初始化store
-const friendsStore = useFriendsStore()
-
+const friendsStore = useFriendsStore();
 
 // 用于存储展开状态的Map
-const expandedFriends = ref<Map<number, boolean>>(new Map())
-const nicknameModalVisible = ref<boolean>(false)
-const currentFriendId = ref<number>(0)
-const newNickname = ref<string>('')
-const showToast = ref<boolean>(false)
-const toastMessage = ref<string>('')
-const toastType = ref<'success' | 'error'>('success')
+const expandedFriends = ref<Map<number, boolean>>(new Map());
+const nicknameModalVisible = ref<boolean>(false);
+const currentFriendId = ref<number>(0);
+const newNickname = ref<string>("");
+const showToast = ref<boolean>(false);
+const toastMessage = ref<string>("");
+const toastType = ref<"success" | "error">("success");
 
 // 从store获取数据
 const friends = computed(() => {
-  return friendsStore.friends || []
-})
+  return friendsStore.friends || [];
+});
 
-const pendingFriendRequests = computed(() => friendsStore.pendingFriendRequests || [])
+const pendingFriendRequests = computed(
+  () => friendsStore.pendingFriendRequests || []
+);
 
-const error = computed(() => friendsStore.error)
+const error = computed(() => friendsStore.error);
 
-const acceptFriendRequest = friendsStore.acceptFriendRequest
-const rejectFriendRequest = friendsStore.rejectFriendRequest
-const removeFriend = friendsStore.removeFriend
-const blockFriend = friendsStore.blockFriend
-const setFriendNickname = friendsStore.setFriendNickname
+const acceptFriendRequest = friendsStore.acceptFriendRequest;
+const rejectFriendRequest = friendsStore.rejectFriendRequest;
+const removeFriend = friendsStore.removeFriend;
+const blockFriend = friendsStore.blockFriend;
+const setFriendNickname = friendsStore.setFriendNickname;
 
 // 显示toast提示
-const showToastMessage = (message: string, type: 'success' | 'error' = 'success') => {
-  toastMessage.value = message
-  toastType.value = type
-  showToast.value = true
-}
+const showToastMessage = (
+  message: string,
+  type: "success" | "error" = "success"
+) => {
+  toastMessage.value = message;
+  toastType.value = type;
+  showToast.value = true;
+};
 
 // 关闭toast
 const closeToast = () => {
-  showToast.value = false
-}
+  showToast.value = false;
+};
 
 // 展开/收起好友项
 const toggleFriendExpand = (friendId: number) => {
-  expandedFriends.value.set(friendId, !expandedFriends.value.get(friendId))
-}
+  expandedFriends.value.set(friendId, !expandedFriends.value.get(friendId));
+};
 // 监听错误变化并显示提示
 watch(error, (newError) => {
   if (newError) {
-    showToastMessage(newError, 'error')
+    showToastMessage(newError, "error");
   }
-})
+});
 // 打开备注对话框
 const openNicknameModal = (friendId: number, currentNickname?: string) => {
-  currentFriendId.value = friendId
-  newNickname.value = currentNickname || ''
-  nicknameModalVisible.value = true
-}
+  currentFriendId.value = friendId;
+  newNickname.value = currentNickname || "";
+  nicknameModalVisible.value = true;
+};
 
 // 保存备注
 const saveNickname = async () => {
   if (newNickname.value.trim()) {
     try {
-      await setFriendNickname(currentFriendId.value, newNickname.value.trim())
-      nicknameModalVisible.value = false
-      showToastMessage('备注设置成功', 'success')
+      await setFriendNickname(currentFriendId.value, newNickname.value.trim());
+      nicknameModalVisible.value = false;
+      showToastMessage("备注设置成功", "success");
     } catch (err) {
-      showToastMessage('备注设置失败', 'error')
+      showToastMessage("备注设置失败", "error");
     }
   }
-}
+};
 
 // 确认删除好友
 const confirmRemoveFriend = async (friendId: number) => {
-  if (confirm('确定要删除这个好友吗？')) {
+  if (confirm("确定要删除这个好友吗？")) {
     try {
-      await removeFriend(friendId)
-      showToastMessage('好友删除成功', 'success')
+      await removeFriend(friendId);
+      showToastMessage("好友删除成功", "success");
     } catch (err) {
-      showToastMessage('好友删除失败', 'error')
+      showToastMessage("好友删除失败", "error");
     }
   }
-}
+};
 
 // 确认屏蔽好友
 const confirmBlockFriend = async (friendId: number) => {
-  if (confirm('确定要屏蔽这个好友吗？')) {
+  if (confirm("确定要屏蔽这个好友吗？")) {
     try {
-      await blockFriend(friendId)
-      showToastMessage('好友已屏蔽', 'success')
+      await blockFriend(friendId);
+      showToastMessage("好友已屏蔽", "success");
     } catch (err) {
-      showToastMessage('屏蔽好友失败', 'error')
+      showToastMessage("屏蔽好友失败", "error");
     }
   }
-}
+};
 
 // 接受好友请求
 const handleAcceptFriendRequest = async (requestId: number) => {
   try {
-    await acceptFriendRequest(requestId)
-    showToastMessage('已接受好友请求', 'success')
+    await acceptFriendRequest(requestId);
+    showToastMessage("已接受好友请求", "success");
   } catch (err) {
-    showToastMessage('接受好友请求失败', 'error')
+    showToastMessage("接受好友请求失败", "error");
   }
-}
+};
 
 // 拒绝好友请求
 const handleRejectFriendRequest = async (requestId: number) => {
   try {
-    await rejectFriendRequest(requestId)
-    showToastMessage('已拒绝好友请求', 'success')
+    await rejectFriendRequest(requestId);
+    showToastMessage("已拒绝好友请求", "success");
   } catch (err) {
-    showToastMessage('拒绝好友请求失败', 'error')
+    showToastMessage("拒绝好友请求失败", "error");
   }
-}
-
-
-
-
-
+};
 </script>
 
 <template>
   <div class="friends-list">
     <!-- 好友请求区域 -->
-    <div v-if="pendingFriendRequests?.length > 0" class="friend-requests-section">
+    <div
+      v-if="pendingFriendRequests?.length > 0"
+      class="friend-requests-section"
+    >
       <h3>好友请求 ({{ pendingFriendRequests?.length }})</h3>
-      <div v-for="request in pendingFriendRequests" :key="request.id" class="friend-request-item">
-         <div class="friend-info">
-          <AvatarLook 
-            :user="request.sender_info" 
-            size="medium"
-          />
+      <div
+        v-for="request in pendingFriendRequests"
+        :key="request.id"
+        class="friend-request-item"
+      >
+        <div class="friend-info">
+          <AvatarLook :user="request.sender_info" size="medium" />
           <div class="friend-details">
-            <div class="friend-name">{{ request.sender_info?.username  }}</div>
+            <div class="friend-name">{{ request.sender_info?.username }}</div>
           </div>
         </div>
         <div class="request-actions">
-          <button @click="handleAcceptFriendRequest(request.id)" class="accept-btn">接受</button>
-          <button @click="handleRejectFriendRequest(request.id)" class="reject-btn">拒绝</button>
+          <button
+            @click="handleAcceptFriendRequest(request.id)"
+            class="accept-btn"
+          >
+            接受
+          </button>
+          <button
+            @click="handleRejectFriendRequest(request.id)"
+            class="reject-btn"
+          >
+            拒绝
+          </button>
         </div>
       </div>
     </div>
@@ -153,16 +166,15 @@ const handleRejectFriendRequest = async (requestId: number) => {
       <h3>我的好友</h3>
       <div v-for="friend in friends" :key="friend.id" class="friend-item">
         <div class="friend-info">
-          <AvatarLook 
-            :user="friend.friend_info" 
-            size="medium"
-          />
+          <AvatarLook :user="friend.friend_info" size="medium" />
           <div class="friend-details">
-            <div class="friend-name">{{ friend.nickname || friend.friend_info?.username || '用户' }}</div>
+            <div class="friend-name">
+              {{ friend.nickname || friend.friend_info?.username || "用户" }}
+            </div>
           </div>
         </div>
         <!-- 展开按钮 -->
-        <button 
+        <button
           class="expand-btn"
           @click="toggleFriendExpand(friend.id)"
           :class="{ expanded: expandedFriends.get(friend.id) }"
@@ -170,23 +182,20 @@ const handleRejectFriendRequest = async (requestId: number) => {
           <img :src="ExpandIcon" alt="展开" />
         </button>
         <!-- 展开菜单 -->
-        <div 
-          v-if="expandedFriends.get(friend.id)"
-          class="friend-actions-menu"
-        >
-          <button 
+        <div v-if="expandedFriends.get(friend.id)" class="friend-actions-menu">
+          <button
             class="action-btn note-btn"
             @click="openNicknameModal(friend.id)"
           >
             设置备注
           </button>
-          <button 
+          <button
             class="action-btn block-btn"
             @click="confirmBlockFriend(friend.id)"
           >
             屏蔽好友
           </button>
-          <button 
+          <button
             class="action-btn delete-btn"
             @click="confirmRemoveFriend(friend.id)"
           >
@@ -197,13 +206,23 @@ const handleRejectFriendRequest = async (requestId: number) => {
     </div>
 
     <!-- 空状态 -->
-    <div v-if="friends.length === 0 && (!pendingFriendRequests || pendingFriendRequests.length === 0)" class="empty-state">
+    <div
+      v-if="
+        friends.length === 0 &&
+        (!pendingFriendRequests || pendingFriendRequests.length === 0)
+      "
+      class="empty-state"
+    >
       <p>暂无好友</p>
       <p class="empty-hint">通过搜索添加好友开始聊天吧！</p>
     </div>
 
     <!-- 备注对话框 -->
-    <div v-if="nicknameModalVisible" class="modal-overlay" @click="nicknameModalVisible = false">
+    <div
+      v-if="nicknameModalVisible"
+      class="modal-overlay"
+      @click="nicknameModalVisible = false"
+    >
       <div class="modal-content" @click.stop>
         <h3>设置好友备注</h3>
         <input
@@ -214,18 +233,20 @@ const handleRejectFriendRequest = async (requestId: number) => {
           @keyup.enter="saveNickname"
         />
         <div class="modal-actions">
-          <button @click="nicknameModalVisible = false" class="cancel-btn">取消</button>
+          <button @click="nicknameModalVisible = false" class="cancel-btn">
+            取消
+          </button>
           <button @click="saveNickname" class="confirm-btn">确定</button>
         </div>
       </div>
     </div>
 
     <!-- Toast组件 -->
-    <Toast 
-      v-if="showToast" 
-      :message="toastMessage" 
-      :type="toastType" 
-      @close="closeToast" 
+    <Toast
+      v-if="showToast"
+      :message="toastMessage"
+      :type="toastType"
+      @close="closeToast"
     />
   </div>
 </template>
@@ -244,7 +265,7 @@ const handleRejectFriendRequest = async (requestId: number) => {
 .friend-requests-section h3,
 .friends-section h3 {
   margin-bottom: 15px;
-  color: #555;
+  color: var(--color-text-primary);
   font-size: 18px;
   font-weight: 500;
 }
@@ -262,7 +283,7 @@ const handleRejectFriendRequest = async (requestId: number) => {
 
 .friend-request-item:hover,
 .friend-item:hover {
-  background-color: #f5f5f5;
+  background-color: var(--color-bg-hover);
 }
 
 .friend-info {
@@ -274,12 +295,12 @@ const handleRejectFriendRequest = async (requestId: number) => {
 
 .friend-details {
   flex: 1;
-  margin-left: 12px; 
+  margin-left: 12px;
 }
 
 .friend-name {
   font-size: 16px;
-  color: #333;
+  color: var(--color-text-primary);
   margin-bottom: 4px;
 }
 
@@ -294,13 +315,14 @@ const handleRejectFriendRequest = async (requestId: number) => {
 }
 
 .expand-btn:hover {
-  background-color: #e0e0e0;
+  background-color: var(--color-bg-hover);
 }
 
 .expand-btn img {
   width: 16px;
   height: 16px;
   transition: transform 0.2s ease;
+  filter: var(--color-text-primary);
 }
 
 .expand-btn.expanded img {
@@ -312,10 +334,10 @@ const handleRejectFriendRequest = async (requestId: number) => {
   position: absolute;
   right: 10px;
   top: 100%;
-  background-color: white;
-  border: 1px solid #e0e0e0;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-lg);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -330,22 +352,23 @@ const handleRejectFriendRequest = async (requestId: number) => {
   text-align: left;
   font-size: 14px;
   transition: background-color 0.2s ease;
+  color: var(--color-text-primary);
 }
 
 .action-btn:hover {
-  background-color: #f5f5f5;
+  background-color: var(--color-bg-hover);
 }
 
 .note-btn:hover {
-  color: #2196f3;
+  color: var(--color-info);
 }
 
 .block-btn:hover {
-  color: #ff9800;
+  color: var(--color-warning);
 }
 
 .delete-btn:hover {
-  color: #f44336;
+  color: var(--color-error);
 }
 
 .request-actions {
@@ -367,34 +390,34 @@ const handleRejectFriendRequest = async (requestId: number) => {
 }
 
 .accept-btn {
-  background-color: #4caf50;
-  color: white;
+  background-color: var(--color-success);
+  color: var(--color-text-inverse);
 }
 
 .accept-btn:hover {
-  background-color: #45a049;
+  opacity: 0.9;
 }
 
 .reject-btn,
 .cancel-btn {
-  background-color: #f44336;
-  color: white;
+  background-color: var(--color-error);
+  color: var(--color-text-inverse);
 }
 
 .reject-btn:hover,
 .cancel-btn:hover {
-  background-color: #d32f2f;
+  opacity: 0.9;
 }
 
 .retry-btn,
 .confirm-btn {
-  background-color: #2196f3;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
 }
 
 .retry-btn:hover,
 .confirm-btn:hover {
-  background-color: #1976d2;
+  background-color: var(--color-primary-hover);
 }
 
 .retry-btn {
@@ -406,17 +429,17 @@ const handleRejectFriendRequest = async (requestId: number) => {
 .error-state {
   text-align: center;
   padding: 40px 20px;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .empty-hint {
   font-size: 14px;
-  color: #999;
+  color: var(--color-text-tertiary);
   margin-top: 8px;
 }
 
 .error-state {
-  color: #f44336;
+  color: var(--color-error);
 }
 
 /* 备注对话框样式 */
@@ -434,25 +457,28 @@ const handleRejectFriendRequest = async (requestId: number) => {
 }
 
 .modal-content {
-  background-color: white;
+  background-color: var(--color-bg-primary);
   padding: 20px;
   border-radius: 8px;
   min-width: 300px;
+  border: 1px solid var(--color-border-primary);
 }
 
 .modal-content h3 {
   margin-bottom: 15px;
-  color: #333;
+  color: var(--color-text-primary);
   font-size: 16px;
 }
 
 .nickname-input {
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--color-border-primary);
   border-radius: 4px;
   margin-bottom: 15px;
   font-size: 14px;
+  background-color: var(--color-input-bg);
+  color: var(--color-text-primary);
 }
 
 .modal-actions {

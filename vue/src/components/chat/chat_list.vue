@@ -1,17 +1,28 @@
 <template>
   <!-- 移动端空状态显示 -->
-  <div v-if="isMobile && sortedChatRooms.length === 0" class="empty-state-mobile">
+  <div
+    v-if="isMobile && sortedChatRooms.length === 0"
+    class="empty-state-mobile"
+  >
     <div class="empty-state-icon">
-      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20 2H4C2.9 2 2.01 2.9 2.01 4L2 22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM6 9H18V11H6V9ZM14 14H6V12H14V14ZM18 8H6V6H18V8Z" fill="#ccc"/>
+      <svg
+        width="64"
+        height="64"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M20 2H4C2.9 2 2.01 2.9 2.01 4L2 22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM6 9H18V11H6V9ZM14 14H6V12H14V14ZM18 8H6V6H18V8Z"
+          fill="#ccc"
+        />
       </svg>
     </div>
     <h3>暂无聊天记录</h3>
     <p>您还没有任何聊天消息，开始和好友聊天吧！</p>
   </div>
-  
-  <div class="chat-list-container">
 
+  <div class="chat-list-container">
     <div class="chat-list">
       <div
         v-for="room in sortedChatRooms"
@@ -25,20 +36,19 @@
           :user="{
             id: chatStore.getChatRoomDisplayInfo(room).id,
             username: chatStore.getChatRoomDisplayInfo(room).name,
-            user_avatar: chatStore.getChatRoomDisplayInfo(room).avatar
+            user_avatar: chatStore.getChatRoomDisplayInfo(room).avatar,
           }"
           size="medium"
         />
-        
+
         <!-- 聊天信息 -->
         <div class="chat-info">
           <div class="chat-header">
-            <span class="chat-username">{{ chatStore.getChatRoomDisplayInfo(room).name }}</span>
+            <span class="chat-username">{{
+              chatStore.getChatRoomDisplayInfo(room).name
+            }}</span>
             <!-- 未读消息计数 -->
-            <span
-              v-if="getUnreadCount(room.id) > 0"
-              class="unread-badge"
-            >
+            <span v-if="getUnreadCount(room.id) > 0" class="unread-badge">
               {{ getUnreadCount(room.id) }}
             </span>
           </div>
@@ -60,12 +70,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, onMounted, onUnmounted } from 'vue';
-import { useChatStore } from '../../store/chat';
-import Avatar_look from '../auth/Avatar_look.vue';
-import { useMessagesStore } from '../../store/messages';
+import { computed, ref, watch, onMounted, onUnmounted } from "vue";
+import { useChatStore } from "../../store/chat";
+import Avatar_look from "../auth/Avatar_look.vue";
+import { useMessagesStore } from "../../store/messages";
 // 导入toast组件
-import Toast from '../utils/toast.vue';
+import Toast from "../utils/toast.vue";
 
 // 移动端检测
 const isMobile = ref(false);
@@ -78,24 +88,23 @@ const checkIsMobile = () => {
 // 监听窗口大小变化
 onMounted(() => {
   checkIsMobile();
-  window.addEventListener('resize', checkIsMobile);
+  window.addEventListener("resize", checkIsMobile);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('resize', checkIsMobile);
+  window.removeEventListener("resize", checkIsMobile);
 });
 
 // 定义组件事件
-const emit = defineEmits(['select-chat']);
+const emit = defineEmits(["select-chat"]);
 
 const chatStore = useChatStore();
 const messagesStore = useMessagesStore();
 
 // toast相关状态
 const showToast = ref(false);
-const toastMessage = ref('');
-const toastType = ref<'success' | 'error'>('error');
-
+const toastMessage = ref("");
+const toastType = ref<"success" | "error">("error");
 
 // 获取未读消息数量
 const getUnreadCount = (roomId: number): number => {
@@ -103,56 +112,55 @@ const getUnreadCount = (roomId: number): number => {
   return count || 0;
 };
 
-
 // 获取房间的最后一条消息
 const getLastMessage = (roomId: number): string => {
   const roomMessages = messagesStore.messages[roomId];
-  
+
   // 检查房间消息是否存在
   if (!roomMessages || roomMessages.length === 0) {
-    return '';
+    return "";
   }
-  
+
   // 获取最新的消息
   const lastMessage = roomMessages[roomMessages.length - 1];
-  
+
   // 检查消息是否存在
   if (!lastMessage) {
-    return '未知消息';
+    return "未知消息";
   }
-  
+
   // 根据消息类型显示不同内容
-  let messageContent = '';
-  
+  let messageContent = "";
+
   // 检查是否为图片消息
-  if (lastMessage.messages_type === 'image') {
-    messageContent = '[图片消息]';
+  if (lastMessage.messages_type === "image") {
+    messageContent = "[图片消息]";
   }
   // 检查是否为视频消息
-  else if (lastMessage.messages_type === 'video') {
-    messageContent = '[视频消息]';
+  else if (lastMessage.messages_type === "video") {
+    messageContent = "[视频消息]";
   }
   // 检查是否为文件消息
-  else if (lastMessage.messages_type === 'file') {
-    messageContent = '[文件消息]';
+  else if (lastMessage.messages_type === "file") {
+    messageContent = "[文件消息]";
   }
   // 文本消息处理
   else if (lastMessage.content) {
     // 限制消息长度，过长则显示省略号
-    messageContent = lastMessage.content.length > 30 
-      ? lastMessage.content.substring(0, 30) + '...'
-      : lastMessage.content;
+    messageContent =
+      lastMessage.content.length > 30
+        ? lastMessage.content.substring(0, 30) + "..."
+        : lastMessage.content;
+  } else {
+    messageContent = "未知消息";
   }
-  else {
-    messageContent = '未知消息';
-  }
-  
+
   // 如果是群聊消息且不是自己发送的，显示发送者用户名
-  if (lastMessage.room_type === 'group') {
-    const senderName = lastMessage.sender?.username || '未知用户';
+  if (lastMessage.room_type === "group") {
+    const senderName = lastMessage.sender?.username || "未知用户";
     return `${senderName}: ${messageContent}`;
   }
-  
+
   return messageContent;
 };
 
@@ -160,14 +168,16 @@ const getLastMessage = (roomId: number): string => {
 const sortedChatRooms = computed(() => {
   // 合并私聊和群聊房间
   const allRooms = [...chatStore.privateChatRooms, ...chatStore.groupChatRooms];
-  
+
   return allRooms.sort((a, b) => {
     const messagesA = messagesStore.messages[a.id] || [];
     const messagesB = messagesStore.messages[b.id] || [];
-    
+
     if (messagesA.length === 0 && messagesB.length === 0) {
       // 都没有消息时，按房间更新时间排序
-      return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+      return (
+        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+      );
     } else if (messagesA.length === 0) {
       return 1; // 有消息的排在前面
     } else if (messagesB.length === 0) {
@@ -176,7 +186,10 @@ const sortedChatRooms = computed(() => {
       // 都有消息时，按最后消息时间排序
       const lastMessageA = messagesA[messagesA.length - 1];
       const lastMessageB = messagesB[messagesB.length - 1];
-      return new Date(lastMessageB.timestamp).getTime() - new Date(lastMessageA.timestamp).getTime();
+      return (
+        new Date(lastMessageB.timestamp).getTime() -
+        new Date(lastMessageA.timestamp).getTime()
+      );
     }
   });
 });
@@ -185,13 +198,13 @@ const sortedChatRooms = computed(() => {
 const handleChatItemClick = (roomId: number) => {
   messagesStore.setCurrentChatRoom(roomId);
   // 触发选择聊天事件
-  emit('select-chat');
+  emit("select-chat");
 };
 
 // 显示toast提示
 const showErrorToast = (message: string) => {
   toastMessage.value = message;
-  toastType.value = 'error';
+  toastType.value = "error";
   showToast.value = true;
 };
 
@@ -209,8 +222,6 @@ watch(
     }
   }
 );
-
-
 </script>
 
 <style scoped>
@@ -220,7 +231,7 @@ watch(
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #f5f7fa;
+  background-color: var(--color-bg-primary);
 }
 
 .chat-list {
@@ -232,17 +243,17 @@ watch(
   display: flex;
   align-items: center;
   padding: 12px 16px;
-  border-bottom: 1px solid #e1e8ed;
+  border-bottom: 1px solid var(--color-border-primary);
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .chat-item:hover {
-  background-color: #e8f5fd;
+  background-color: var(--color-bg-hover);
 }
 
 .chat-item.active {
-  background-color: #e3f2fd;
+  background-color: var(--color-primary-light);
 }
 
 .chat-info {
@@ -261,13 +272,13 @@ watch(
 
 .chat-username {
   font-weight: 500;
-  color: #333;
+  color: var(--color-text-primary);
   font-size: 14px;
 }
 
 .unread-badge {
-  background-color: #ff4d4f;
-  color: white;
+  background-color: var(--color-error);
+  color: var(--color-text-inverse);
   border-radius: 10px;
   padding: 2px 8px;
   font-size: 12px;
@@ -279,13 +290,13 @@ watch(
 .loading-indicator {
   padding: 20px;
   text-align: center;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .empty-state {
   padding: 40px;
   text-align: center;
-  color: #999;
+  color: var(--color-text-tertiary);
   font-size: 14px;
 }
 

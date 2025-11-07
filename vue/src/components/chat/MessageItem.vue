@@ -7,13 +7,10 @@
     <!-- 接收的消息 -->
     <template v-if="!isSent">
       <div class="message-avatar">
-        <Avatar_look
-          :user="message.sender"
-          size="small"
-        />
+        <Avatar_look :user="message.sender" size="small" />
         <!-- 在群聊中显示用户名 -->
         <div v-if="isGroupChat" class="message-username">
-          {{ message.sender?.username || '未知用户' }}
+          {{ message.sender?.username || "未知用户" }}
         </div>
       </div>
       <div class="message-content">
@@ -24,7 +21,7 @@
         />
       </div>
     </template>
-    
+
     <!-- 发送的消息 -->
     <template v-else>
       <div class="message-content">
@@ -35,19 +32,16 @@
         />
       </div>
       <div class="message-avatar">
-        <Avatar_look
-          :user="currentUser"
-          size="small"
-        />
+        <Avatar_look :user="currentUser" size="small" />
       </div>
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import Avatar_look from '../auth/Avatar_look.vue';
-import MessageContent from './MessageContent.vue';
+import { computed } from "vue";
+import Avatar_look from "../auth/Avatar_look.vue";
+import MessageContent from "./MessageContent.vue";
 
 interface Props {
   message: any;
@@ -57,7 +51,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const emit = defineEmits<{
-  previewMedia: [url: string, type: 'image' | 'video']
+  previewMedia: [url: string, type: "image" | "video"];
 }>();
 
 const isSent = computed(() => props.message.sender?.id === props.currentUserId);
@@ -65,7 +59,7 @@ const isSent = computed(() => props.message.sender?.id === props.currentUserId);
 // 判断是否为群聊
 const isGroupChat = computed(() => {
   // 根据消息的room_type属性判断是否为群聊
-  return props.message.room_type === 'group';
+  return props.message.room_type === "group";
 });
 </script>
 
@@ -101,7 +95,7 @@ const isGroupChat = computed(() => {
 
 .message-username {
   font-size: 12px;
-  color: #666;
+  color: var(--color-text-secondary);
   text-align: center;
   max-width: 80px;
   overflow: hidden;

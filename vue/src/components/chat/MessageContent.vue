@@ -1,36 +1,34 @@
 <template>
   <div class="message-content-wrapper">
     <!-- 文本消息 -->
-    <div v-if="message.messages_type === 'text'" 
-         class="message-bubble"
-         :class="isSent ? 'sent-bubble' : 'received-bubble'">
+    <div
+      v-if="message.messages_type === 'text'"
+      class="message-bubble"
+      :class="isSent ? 'sent-bubble' : 'received-bubble'"
+    >
       {{ message.content }}
     </div>
-    
+
     <!-- 图片消息 -->
     <div v-else-if="message.messages_type === 'image'" class="media-container">
-      <img 
-        :src="message.file" 
-        :alt="message.filename || message.content || ''" 
-        class="message-image" 
-        @click="handleMediaClick(message.file, 'image')" 
+      <img
+        :src="message.file"
+        :alt="message.filename || message.content || ''"
+        class="message-image"
+        @click="handleMediaClick(message.file, 'image')"
       />
     </div>
-    
+
     <!-- 视频消息 -->
     <div v-else-if="message.messages_type === 'video'" class="media-container">
-      <video 
-        :src="message.file" 
-        controls 
-        class="message-video"
-      ></video>
+      <video :src="message.file" controls class="message-video"></video>
     </div>
-    
+
     <!-- 文件消息 -->
     <div v-else-if="message.messages_type === 'file'" class="media-container">
-      <a 
-        :href="message.file" 
-        :download="message.filename || ''" 
+      <a
+        :href="message.file"
+        :download="message.filename || ''"
         class="file-download"
       >
         <img src="../../assets/文件.svg" alt="文件" class="file-icon-svg" />
@@ -39,7 +37,7 @@
         {{ truncateFilename(message.filename) }}
       </span>
     </div>
-    
+
     <div class="message-time" :class="{ 'time-right': isSent }">
       {{ formatMessageTime(message.timestamp) }}
     </div>
@@ -54,22 +52,28 @@ interface Props {
 
 defineProps<Props>();
 const emit = defineEmits<{
-  previewMedia: [url: string, type: 'image' | 'video']
+  previewMedia: [url: string, type: "image" | "video"];
 }>();
 
 // 格式化消息时间
 const formatMessageTime = (timestamp: string | undefined): string => {
   if (!timestamp) {
-    return '';
+    return "";
   }
   const date = new Date(timestamp);
   const now = new Date();
   const isToday = date.toDateString() === now.toDateString();
-  
+
   if (isToday) {
-    return date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+    return date.toLocaleTimeString("zh-CN", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   } else {
-    return date.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' });
+    return date.toLocaleDateString("zh-CN", {
+      month: "2-digit",
+      day: "2-digit",
+    });
   }
 };
 
@@ -78,27 +82,27 @@ const truncateFilename = (filename: string, maxLength: number = 20): string => {
   if (filename.length <= maxLength) {
     return filename;
   }
-  
-  const lastDotIndex = filename.lastIndexOf('.');
+
+  const lastDotIndex = filename.lastIndexOf(".");
   if (lastDotIndex === -1) {
-    return filename.substring(0, maxLength) + '...';
+    return filename.substring(0, maxLength) + "...";
   }
-  
+
   const name = filename.substring(0, lastDotIndex);
   const ext = filename.substring(lastDotIndex);
   const availableNameLength = maxLength - ext.length - 3;
-  
+
   if (availableNameLength <= 0) {
-    return '...' + ext.substring(0, maxLength - 3);
+    return "..." + ext.substring(0, maxLength - 3);
   }
-  
-  return name.substring(0, availableNameLength) + '...' + ext;
+
+  return name.substring(0, availableNameLength) + "..." + ext;
 };
 
 // 处理媒体点击
-const handleMediaClick = (url: string, type: 'image' | 'video') => {
-  if (type === 'image') {
-    emit('previewMedia', url, type);
+const handleMediaClick = (url: string, type: "image" | "video") => {
+  if (type === "image") {
+    emit("previewMedia", url, type);
   }
 };
 </script>
@@ -111,14 +115,14 @@ const handleMediaClick = (url: string, type: 'image' | 'video') => {
 
 /* 接收方气泡样式 - 统一圆角，无尖角 */
 .message-bubble.received-bubble {
-  background-color: #ffffff;
+  background-color: var(--color-chat-bubble-received);
   padding: 10px 12px;
   border-radius: 18px; /* 统一圆角，无尖角 */
-  border: 1px solid #e1e8ed;
+  border: 1px solid var(--color-border-primary);
   word-wrap: break-word;
   word-break: break-word;
   font-size: 14px;
-  color: #333;
+  color: var(--color-chat-text-received);
   max-width: 100%;
   align-self: flex-start;
   white-space: pre-wrap;
@@ -126,14 +130,14 @@ const handleMediaClick = (url: string, type: 'image' | 'video') => {
 
 /* 发送方气泡样式 - 统一圆角，无尖角 */
 .message-bubble.sent-bubble {
-  background-color: #e3f2fd;
+  background-color: var(--color-chat-bubble-sent);
   padding: 10px 12px;
   border-radius: 18px; /* 统一圆角，无尖角 */
-  border: 1px solid #bbdefb;
+  border: 1px solid transparent;
   word-wrap: break-word;
   word-break: break-word;
   font-size: 14px;
-  color: #333;
+  color: var(--color-chat-text-sent);
   max-width: 100%;
   align-self: flex-end;
   white-space: pre-wrap;
@@ -141,7 +145,7 @@ const handleMediaClick = (url: string, type: 'image' | 'video') => {
 
 .message-time {
   font-size: 11px;
-  color: #999;
+  color: var(--color-text-tertiary);
   margin-top: 4px;
   text-align: left;
   align-self: flex-start;
@@ -182,17 +186,17 @@ const handleMediaClick = (url: string, type: 'image' | 'video') => {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #007bff;
+  color: var(--color-primary);
   text-decoration: none;
   padding: 12px;
-  background-color: #f8f9fa;
+  background-color: var(--color-bg-secondary);
   border-radius: 8px;
   transition: background-color 0.2s ease;
   width: fit-content;
 }
 
 .file-download:hover {
-  background-color: #e9ecef;
+  background-color: var(--color-bg-hover);
 }
 
 .file-icon-svg {
@@ -203,7 +207,7 @@ const handleMediaClick = (url: string, type: 'image' | 'video') => {
 .media-filename {
   display: block;
   font-size: 12px;
-  color: #666;
+  color: var(--color-text-secondary);
   margin-top: 4px;
   text-align: center;
 }

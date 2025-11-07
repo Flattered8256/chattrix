@@ -1,3 +1,5 @@
 .vscode/
 vue/.vite/deps/_metadata.json
 vue/.vite/deps/package.json
+.idea/
+data/

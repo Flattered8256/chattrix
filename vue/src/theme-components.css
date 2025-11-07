@@ -1,0 +1,254 @@
+/* ==================== 组件主题样式覆盖 ==================== */
+
+/* 导航栏样式 */
+.navigation {
+  background-color: var(--color-bg-secondary) !important;
+  border-right: 1px solid var(--color-border-primary);
+}
+
+.navigation-item {
+  color: var(--color-text-secondary) !important;
+  transition: all 0.2s ease;
+}
+
+.navigation-item:hover {
+  background-color: var(--color-bg-hover) !important;
+  color: var(--color-primary) !important;
+}
+
+.navigation-item.active {
+  background-color: var(--color-primary-light) !important;
+  color: var(--color-primary) !important;
+}
+
+/* 好友列表样式 */
+.friends-list {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+.friend-item {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  transition: all 0.2s ease;
+}
+
+.friend-item:hover {
+  background-color: var(--color-bg-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.friend-name {
+  color: var(--color-text-primary) !important;
+}
+
+.friend-status {
+  color: var(--color-text-secondary) !important;
+}
+
+/* 聊天消息样式 */
+.chat-container {
+  background-color: var(--color-bg-primary);
+}
+
+.chat-header {
+  background-color: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border-primary);
+  color: var(--color-text-primary);
+}
+
+.message-list {
+  background-color: var(--color-bg-primary);
+}
+
+.message-item {
+  color: var(--color-text-primary);
+}
+
+/* 发送的消息气泡 */
+.message-sent {
+  background-color: var(--color-chat-bubble-sent) !important;
+  color: var(--color-chat-text-sent) !important;
+}
+
+/* 接收的消息气泡 */
+.message-received {
+  background-color: var(--color-chat-bubble-received) !important;
+  color: var(--color-chat-text-received) !important;
+}
+
+/* 输入框样式 */
+.message-input,
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea {
+  background-color: var(--color-input-bg) !important;
+  border: 1px solid var(--color-input-border) !important;
+  color: var(--color-text-primary) !important;
+  transition: all 0.2s ease;
+}
+
+.message-input:focus,
+input:focus,
+textarea:focus {
+  border-color: var(--color-input-focus-border) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* 按钮样式 */
+.btn-primary,
+button.primary {
+  background-color: var(--color-primary) !important;
+  color: var(--color-text-inverse) !important;
+  border: none;
+}
+
+.btn-primary:hover,
+button.primary:hover {
+  background-color: var(--color-primary-hover) !important;
+}
+
+.btn-secondary {
+  background-color: var(--color-bg-secondary) !important;
+  color: var(--color-text-primary) !important;
+  border: 1px solid var(--color-border-primary);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-bg-hover) !important;
+}
+
+.btn-success {
+  background-color: var(--color-success) !important;
+  color: var(--color-text-inverse) !important;
+}
+
+.btn-error,
+.btn-danger {
+  background-color: var(--color-error) !important;
+  color: var(--color-text-inverse) !important;
+}
+
+/* 卡片样式 */
+.card {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* 模态框/对话框 */
+.modal,
+.dialog {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-primary);
+  box-shadow: var(--shadow-xl);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--color-border-primary);
+  color: var(--color-text-primary);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--color-border-primary);
+}
+
+/* 徽章/通知点 */
+.badge,
+.notification-dot {
+  background-color: var(--color-error);
+  color: var(--color-text-inverse);
+}
+
+/* 状态标签 */
+.status-online {
+  color: var(--color-success) !important;
+}
+
+.status-offline {
+  color: var(--color-text-tertiary) !important;
+}
+
+/* 搜索框 */
+.search-input {
+  background-color: var(--color-input-bg) !important;
+  border: 1px solid var(--color-input-border) !important;
+  color: var(--color-text-primary) !important;
+}
+
+/* 下拉菜单 */
+.dropdown-menu {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  box-shadow: var(--shadow-lg);
+}
+
+.dropdown-item {
+  color: var(--color-text-primary);
+}
+
+.dropdown-item:hover {
+  background-color: var(--color-bg-hover);
+}
+
+/* 分割线 */
+hr,
+.divider {
+  border-color: var(--color-border-primary) !important;
+}
+
+/* 链接 */
+a {
+  color: var(--color-primary);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* 选中状态 */
+.selected,
+.active {
+  background-color: var(--color-primary-light) !important;
+  color: var(--color-primary) !important;
+}
+
+/* 禁用状态 */
+.disabled,
+:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 加载动画 */
+.loading-spinner {
+  border-color: var(--color-border-primary);
+  border-top-color: var(--color-primary);
+}
+
+/* Placeholder */
+::placeholder {
+  color: var(--color-text-tertiary) !important;
+  opacity: 0.7;
+}
+
+/* 选择文本 */
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+/* 工具提示 */
+.tooltip {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-primary);
+  box-shadow: var(--shadow-md);
+}
