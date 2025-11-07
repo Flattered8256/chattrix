@@ -105,4 +105,11 @@ const handleUsernameError = (message: string) => {
   margin-top: 40px;
   text-align: right;
 }
+
+@media (prefers-color-scheme: dark) {
+  .user-profile-section {
+    background-color: #333;
+    color: rgba(255, 255, 255, 0.87);
+  }
+}
 </style>

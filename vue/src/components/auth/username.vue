@@ -455,4 +455,79 @@ onUnmounted(cleanup);
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+  .username-label {
+    color: #8899a6;
+  }
+  
+  .username-value {
+    color: #e1e8ed;
+  }
+  
+  .modal-content {
+    background-color: #242424;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .modal-header {
+    border-bottom: 1px solid #38444d;
+  }
+  
+  .modal-title {
+    color: #ffffff;
+  }
+  
+  .modal-close {
+    color: #8899a6;
+  }
+  
+  .modal-close:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .form-label {
+    color: #8899a6;
+  }
+  
+  .form-input {
+    background-color :#242424;
+    border-color: #38444d;
+    color: #ffffff;
+  }
+  
+  .form-input:focus {
+    border-color: #1da1f2;
+    box-shadow: 0 0 0 2px rgba(29, 161, 242, 0.2);
+  }
+  
+  .cancel-button {
+    color: #8899a6;
+    border-color: #38444d;
+  }
+  
+  .cancel-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .error-message {
+    color: #f56c6c;
+    background-color: rgba(245, 108, 108, 0.1);
+    border: 1px solid rgba(245, 108, 108, 0.2);
+  }
+  
+  .username-hint {
+    color: #8899a6;
+  }
+  
+  .loading-spinner-small {
+    border: 2px solid #38444d;
+    border-top: 2px solid #ffffff;
+  }
+  .save-button:disabled {
+  background-color: #253340;
+  cursor: not-allowed;
+  }
+}
 </style>
