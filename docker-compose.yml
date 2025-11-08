@@ -1,10 +1,11 @@
-version: "3.8"
+version: '3.8'
 
 services:
   redis:
     image: redis:7-alpine
     container_name: chattrix_redis
     restart: unless-stopped
+
 
   backend:
     build: ./django
@@ -16,5 +17,16 @@ services:
       - ./data/data/:/app/data
     depends_on:
       - redis
+
+  frontend:
+    build: ./vue
+    container_name: chattrix_frontend
+    restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "3000:80"
+    volumes:
+      - ./data/staticfiles:/app/staticfiles:ro
+      - ./data/media:/app/media:ro
+    depends_on:
+      - backend
+
