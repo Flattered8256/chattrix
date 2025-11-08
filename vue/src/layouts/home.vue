@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-// 主布局组件，实现两栏结构
+// 移除深色模式类绑定逻辑，使用CSS媒体查询实现深色模式
 </script>
 
 <style scoped>
@@ -41,10 +41,11 @@
     top: 0;
     left: 0; /* 固定在左侧 */
     overflow-y: auto; /* 导航栏内容超出时可以滚动 */
-    background-color:#e3f2fd ;
+    background-color: #e3f2fd;
     border-right: 1px solid #e9ecef;
     z-index: 100; /* 确保导航栏在内容之上 */
     flex-shrink: 0; /* 防止导航栏被压缩 */
+    
   }
   
   .content {
@@ -65,10 +66,11 @@
     left: 0;
     width: 100%;
     height: 60px; /* 底部导航栏的高度 */
-    background-color:#e3f2fd ;
+    background-color: #e3f2fd;
     border-top: 1px solid #e9ecef;
     z-index: 100;
     order: 2; /* 移动端导航栏在底部 */
+    
   }
   
   .content {
@@ -96,5 +98,26 @@
 
 .content::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+/* 深色模式样式 */
+@media (prefers-color-scheme: dark) {
+  .sidebar {
+    background-color: #1a1a1a;
+    border-color: #333333;
+  }
+  
+  /* 深色模式下的滚动条样式 */
+  .sidebar::-webkit-scrollbar-track {
+    background: #2d2d2d;
+  }
+  
+  .sidebar::-webkit-scrollbar-thumb {
+    background: #555;
+  }
+  
+  .sidebar::-webkit-scrollbar-thumb:hover {
+    background: #777;
+  }
 }
 </style>

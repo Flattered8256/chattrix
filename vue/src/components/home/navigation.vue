@@ -140,6 +140,30 @@ const handleNavClick = (path: string) => {
   color: white;
 }
 
+/* 深色模式样式 */
+@media (prefers-color-scheme: dark) {
+  .nav-link {
+    color: white;
+  }
+  
+  /* 深色模式下的SVG图标样式 */
+  .svg-icon {
+    filter: brightness(0) invert(1);
+  }
+  
+  /* 确保选中状态优先于悬浮状态 */
+  .nav-link:hover {
+    background-color: #333;
+    color: #00bfff;
+  }
+  
+  /* 提高选中状态的优先级 */
+  .nav-link.active {
+    background-color: #007bff;
+    color: white;
+  }
+}
+
 .nav-icon {
   font-size: 18px;
   margin-right: 12px;
