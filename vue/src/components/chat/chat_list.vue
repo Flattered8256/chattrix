@@ -342,4 +342,44 @@ watch(
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* 夜间模式样式 */
+@media (prefers-color-scheme: dark) {
+  .chat-list-container {
+    background-color: #2a2a2a;
+  }
+  
+  .chat-item {
+    border-bottom-color: #3a3a3a;
+  }
+  
+  .chat-item:hover {
+    background-color: #3a3a3a;
+  }
+  
+  .chat-item.active {
+    background-color: #2c3e50;
+  }
+  
+  .chat-username {
+    color: #e0e0e0;
+  }
+  
+  .message-content {
+    color: #b0b0b0;
+  }
+  
+  /* 移动端空状态夜间模式样式 */
+  .empty-state-mobile {
+    background-color: #1a1a1a;
+  }
+  
+  .empty-state-mobile h3 {
+    color: #e0e0e0;
+  }
+  
+  .empty-state-mobile p {
+    color: #808080;
+  }
+}
 </style>
