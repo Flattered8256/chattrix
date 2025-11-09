@@ -31,7 +31,6 @@ const error = computed(() => friendsStore.error)
 const acceptFriendRequest = friendsStore.acceptFriendRequest
 const rejectFriendRequest = friendsStore.rejectFriendRequest
 const removeFriend = friendsStore.removeFriend
-const blockFriend = friendsStore.blockFriend
 const setFriendNickname = friendsStore.setFriendNickname
 
 // 显示toast提示
@@ -88,17 +87,7 @@ const confirmRemoveFriend = async (friendId: number) => {
   }
 }
 
-// 确认屏蔽好友
-const confirmBlockFriend = async (friendId: number) => {
-  if (confirm('确定要屏蔽这个好友吗？')) {
-    try {
-      await blockFriend(friendId)
-      showToastMessage('好友已屏蔽', 'success')
-    } catch (err) {
-      showToastMessage('屏蔽好友失败', 'error')
-    }
-  }
-}
+
 
 // 接受好友请求
 const handleAcceptFriendRequest = async (requestId: number) => {
@@ -180,12 +169,7 @@ const handleRejectFriendRequest = async (requestId: number) => {
           >
             设置备注
           </button>
-          <button 
-            class="action-btn block-btn"
-            @click="confirmBlockFriend(friend.id)"
-          >
-            屏蔽好友
-          </button>
+
           <button 
             class="action-btn delete-btn"
             @click="confirmRemoveFriend(friend.id)"
@@ -459,5 +443,80 @@ const handleRejectFriendRequest = async (requestId: number) => {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+}
+
+/* 深色模式样式 */
+@media (prefers-color-scheme: dark) {
+
+  
+  .friend-requests-section h3,
+  .friends-section h3 {
+    color: #e0e0e0;
+  }
+  
+
+  
+  .friend-request-item:hover,
+  .friend-item:hover {
+    background-color: #3a3a3a;
+  }
+  
+  .friend-name {
+    color: #e0e0e0;
+  }
+  
+  .expand-btn:hover {
+    background-color: #4a4a4a;
+  }
+  
+  .expand-btn img {
+    filter: invert(1);
+  }
+  
+  .friend-actions-menu {
+    background-color: #2a2a2a;
+    border: 1px solid #4a4a4a;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .action-btn {
+    color: #e0e0e0;
+  }
+  
+  .action-btn:hover {
+    background-color: #3a3a3a;
+  }
+  
+  .empty-state,
+  .loading-state,
+  .error-state {
+    color: #b0b0b0;
+  }
+  
+  .empty-hint {
+    color: #808080;
+  }
+  
+  .modal-overlay {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .modal-content {
+    background-color: #2a2a2a;
+  }
+  
+  .modal-content h3 {
+    color: #e0e0e0;
+  }
+  
+  .nickname-input {
+    background-color: #3a3a3a;
+    border: 1px solid #4a4a4a;
+    color: #e0e0e0;
+  }
+  
+  .nickname-input::placeholder {
+    color: #808080;
+  }
 }
 </style>

@@ -51,7 +51,6 @@
               <div class="user-details">
                 <h4>{{ searchResult.username }}</h4>
                 <p v-if="searchResult.user_status" class="user-status">
-                  状态: {{ getUserStatusText(searchResult.user_status) }}
                 </p>
               </div>
             </div>
@@ -201,15 +200,7 @@ const handleSendFriendRequest = async () => {
   }
 }
 
-// 获取用户状态文本
-const getUserStatusText = (status: string): string => {
-  const statusMap: Record<string, string> = {
-    'online': '在线',
-    'offline': '离线',
-    'away': '离开'
-  }
-  return statusMap[status] || status
-}
+
 </script>
 
 <style scoped>
