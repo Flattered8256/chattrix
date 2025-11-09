@@ -415,4 +415,76 @@ const getUserStatusText = (status: string): string => {
   padding: 2rem;
   color: #999;
 }
+
+/* 深色模式样式 */
+@media (prefers-color-scheme: dark) {
+  .search-input {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #e0e0e0;
+  }
+  
+  .search-input:focus {
+    background-color: #3d3d3d;
+    border-color: #409eff;
+  }
+  
+  .search-button {
+    color: #bbb;
+  }
+  
+  .modal-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+  .modal-content {
+    background: #2d2d2d;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .modal-header {
+    border-bottom-color: #444;
+  }
+  
+  .modal-header h3 {
+    color: #e0e0e0;
+  }
+  
+  .close-button {
+    color: #bbb;
+  }
+  
+  .close-button:hover {
+    background-color: #3d3d3d;
+    color: #e0e0e0;
+  }
+  
+  .form-input {
+    background-color: #3d3d3d;
+    border-color: #444;
+    color: #e0e0e0;
+  }
+  
+  .form-input:focus {
+    border-color: #409eff;
+    box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.3);
+  }
+  
+  .search-result {
+    border-color: #444;
+    background-color: #353535;
+  }
+  
+  .user-details h4 {
+    color: #e0e0e0;
+  }
+  
+  .user-status {
+    color: #aaa;
+  }
+  
+  .no-result {
+    color: #aaa;
+  }
+}
 </style>
