@@ -339,4 +339,28 @@ defineExpose({
     padding: 12px;
   }
 }
+
+/* 夜间模式样式 */
+@media (prefers-color-scheme: dark) {
+  .chat-messages {
+    background-color: #1a1a1a;
+  }
+  
+  .loading-messages,
+  .empty-messages,
+  .no-chat-selected-content,
+  .loading-more,
+  .no-more-messages {
+    color: #aaa;
+  }
+  
+  .loading-more {
+    background-color: #2a2a2a;
+  }
+  
+  .no-more-messages {
+    background-color: #333;
+    color: #aaa;
+  }
+}
 </style>

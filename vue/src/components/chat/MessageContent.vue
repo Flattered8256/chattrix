@@ -113,7 +113,8 @@ const handleMediaClick = (url: string, type: 'image' | 'video') => {
 .message-bubble.received-bubble {
   background-color: #ffffff;
   padding: 10px 12px;
-  border-radius: 18px; /* 统一圆角，无尖角 */
+  border-radius: 18px;
+ /* 统一圆角，无尖角 */
   border: 1px solid #e1e8ed;
   word-wrap: break-word;
   word-break: break-word;
@@ -128,7 +129,8 @@ const handleMediaClick = (url: string, type: 'image' | 'video') => {
 .message-bubble.sent-bubble {
   background-color: #e3f2fd;
   padding: 10px 12px;
-  border-radius: 18px; /* 统一圆角，无尖角 */
+  border-radius: 18px;
+ /* 统一圆角，无尖角 */
   border: 1px solid #bbdefb;
   word-wrap: break-word;
   word-break: break-word;
@@ -206,5 +208,43 @@ const handleMediaClick = (url: string, type: 'image' | 'video') => {
   color: #666;
   margin-top: 4px;
   text-align: center;
+}
+
+/* 夜间模式样式 */
+@media (prefers-color-scheme: dark) {
+  /* 接收方气泡样式 - 夜间模式 */
+  .message-bubble.received-bubble {
+    background-color: #2a2a2a;
+    border-color: #444;
+    color: rgba(255, 255, 255, 0.87);
+  }
+  
+  /* 发送方气泡样式 - 夜间模式 */
+  .message-bubble.sent-bubble {
+    background-color: #2563eb;
+    border-color: #3b82f6;
+    color: rgba(255, 255, 255, 0.95);
+  }
+  
+  .message-time {
+    color: #888;
+  }
+  
+  .file-download {
+    color: #60a5fa;
+    background-color: #2a2a2a;
+  }
+  
+  .file-download:hover {
+    background-color: #333;
+  }
+  
+  .file-icon-svg {
+    filter: brightness(0) invert(1);
+  }
+  
+  .media-filename {
+    color: #aaa;
+  }
 }
 </style>

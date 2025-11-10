@@ -112,6 +112,13 @@ onUnmounted(() => {
   border-right: 1px solid #e1e8ed;
 }
 
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+  .chat-list-panel {
+    border-right: 1px solid #333;
+  }
+}
+
 .chat-panel {
   flex: 1;
   min-width: 0;

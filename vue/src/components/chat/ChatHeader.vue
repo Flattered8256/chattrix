@@ -60,13 +60,42 @@ const handleBack = () => {
 }
 
 .back-button {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  margin-right: 10px;
-  padding: 5px;
-}
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+    padding: 5px;
+    color: #213547;
+  }
+
+  .back-button:hover {
+    color: #747bff;
+  }
+
+  /* 夜间模式样式 */
+  @media (prefers-color-scheme: dark) {
+    .chat-header {
+      border-bottom-color: #333;
+      background-color: #2a2a2a;
+    }
+    
+    .back-button {
+      color: rgba(255, 255, 255, 0.87);
+    }
+    
+    .back-button:hover {
+      color: #fff;
+    }
+    
+    .partner-name {
+      color: rgba(255, 255, 255, 0.87);
+    }
+    
+    .no-chat-selected {
+      color: #aaa;
+    }
+  }
 
 .chat-partner-info {
   display: flex;

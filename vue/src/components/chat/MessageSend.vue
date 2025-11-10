@@ -185,4 +185,38 @@ function onFileChange(e: Event) {
   background-color: #cccccc;
   cursor: not-allowed;
 }
+  /* 夜间模式样式 */
+  @media (prefers-color-scheme: dark) {
+    .message-sender {
+      border-top-color: #333;
+      background-color: #2a2a2a;
+    }
+    
+    .upload-button:hover:not(:disabled) {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .upload-icon {
+      filter: brightness(0) invert(1);
+    }
+    
+    .message-input {
+      background-color: #3a3a3a;
+      border-color: #555;
+      color: rgba(255, 255, 255, 0.87);
+    }
+    
+    .message-input:focus {
+      border-color: #5a9cf0;
+    }
+    
+    .message-input:disabled {
+      background-color: #444;
+      color: #888;
+    }
+    
+    .send-button:disabled {
+      background-color: #555;
+    }
+  }
 </style>
