@@ -18,6 +18,7 @@ const router = createRouter({
       path: '/',
       component: () => import('../layouts/home.vue'),
       meta: { requiresAuth: true },
+      redirect: 'chat',
       children: [
 
         {
