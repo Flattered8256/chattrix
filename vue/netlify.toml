@@ -17,6 +17,20 @@
   to = "https://xenial-muskox-chattrix-c42d8bd9.koyeb.app/health"
   status = 200
 
+# 添加媒体文件路径的重定向
+[[redirects]]
+  from = "/media/*"
+  to = "https://xenial-muskox-chattrix-c42d8bd9.koyeb.app/media/:splat"
+  status = 200
+  force = true
+
+# 添加静态文件路径的重定向
+[[redirects]]
+  from = "/static/*"
+  to = "https://xenial-muskox-chattrix-c42d8bd9.koyeb.app/static/:splat"
+  status = 200
+  force = true
+
 # SPA 回退规则 - 必须放在最后
 [[redirects]]
   from = "/*"
