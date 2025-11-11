@@ -11,11 +11,7 @@
   [redirects.headers]
     X-Accel-Buffering = "no"
 
-[[redirects]]
-  from = "/ws/*"
-  to = "https://xenial-muskox-chattrix-c42d8bd9.koyeb.app/ws/:splat"
-  status = 200
-  force = true
+
 
 [[redirects]]
   from = "/health"
