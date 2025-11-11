@@ -11,7 +11,15 @@
   [redirects.headers]
     X-Accel-Buffering = "no"
 
-
+[[redirects]]
+  from = "/ws/*"
+  to = "https://xenial-muskox-chattrix-c42d8bd9.koyeb.app/ws/:splat"
+  status = 200
+  force = true
+  # WebSocket 升级头信息
+  [redirects.headers]
+    Upgrade = "websocket"
+    Connection = "Upgrade"
 
 [[redirects]]
   from = "/health"
