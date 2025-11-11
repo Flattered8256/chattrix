@@ -16,10 +16,6 @@
   to = "https://xenial-muskox-chattrix-c42d8bd9.koyeb.app/ws/:splat"
   status = 200
   force = true
-  # WebSocket 支持
-  [redirects.headers]
-    Upgrade = "$http_upgrade"
-    Connection = "upgrade"
 
 [[redirects]]
   from = "/health"
