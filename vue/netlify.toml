@@ -20,7 +20,7 @@
 # 添加媒体文件路径的重定向
 [[redirects]]
   from = "/media/*"
-  to = "https://practical-becky-chattrix-f0677ddd.koyeb.app/media/:splat"
+  to = "https://res.cloudinary.com/dcwkrjzww/:splat"  # ✅ 正确：直接代理到 Cloudinary
   status = 200
   force = true
 
