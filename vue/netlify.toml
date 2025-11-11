@@ -1,0 +1,42 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://xenial-muskox-chattrix-c42d8bd9.koyeb.app/api/:splat"
+  status = 200
+  force = true
+  # 大文件上传配置 - 通过 headers 设置
+  [redirects.headers]
+    X-Accel-Buffering = "no"
+
+[[redirects]]
+  from = "/ws/*"
+  to = "https://xenial-muskox-chattrix-c42d8bd9.koyeb.app/ws/:splat"
+  status = 200
+  force = true
+  # WebSocket 支持
+  [redirects.headers]
+    Upgrade = "$http_upgrade"
+    Connection = "upgrade"
+
+[[redirects]]
+  from = "/health"
+  to = "https://xenial-muskox-chattrix-c42d8bd9.koyeb.app/health"
+  status = 200
+
+# SPA 回退规则 - 必须放在最后
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# 全局头信息设置
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+
