@@ -240,7 +240,7 @@ export class WebSocketService {
   // 获取WebSocket URL
   private getWsUrl(endpoint: string): string {
     // 将HTTP URL转换为WebSocket URL
-    return `wss://xenial-muskox-chattrix-c42d8bd9.koyeb.app/${endpoint}`;
+    return `wss://practical-becky-chattrix-f0677ddd.koyeb.app/${endpoint}`;
   }
 
   // 创建或获取聊天室WebSocket连接

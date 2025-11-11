@@ -4,7 +4,7 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "https://xenial-muskox-chattrix-c42d8bd9.koyeb.app/api/:splat"
+  to = "https://practical-becky-chattrix-f0677ddd.koyeb.app/api/:splat"
   status = 200
   force = true
   # 大文件上传配置 - 通过 headers 设置
@@ -14,20 +14,20 @@
 
 [[redirects]]
   from = "/health"
-  to = "https://xenial-muskox-chattrix-c42d8bd9.koyeb.app/health"
+  to = "https://practical-becky-chattrix-f0677ddd.koyeb.app/health"
   status = 200
 
 # 添加媒体文件路径的重定向
 [[redirects]]
   from = "/media/*"
-  to = "https://xenial-muskox-chattrix-c42d8bd9.koyeb.app/media/:splat"
+  to = "https://practical-becky-chattrix-f0677ddd.koyeb.app/media/:splat"
   status = 200
   force = true
 
 # 添加静态文件路径的重定向
 [[redirects]]
   from = "/static/*"
-  to = "https://xenial-muskox-chattrix-c42d8bd9.koyeb.app/static/:splat"
+  to = "https://practical-becky-chattrix-f0677ddd.koyeb.app/static/:splat"
   status = 200
   force = true
 
