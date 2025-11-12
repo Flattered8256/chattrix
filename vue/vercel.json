@@ -12,10 +12,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://practical-becky-chattrix-f0677ddd.koyeb.app/api/$1",
-      "headers": {
-        "X-Accel-Buffering": "no"
-      }
+      "destination": "https://practical-becky-chattrix-f0677ddd.koyeb.app/api/$1"
     },
     {
       "source": "/health",
@@ -35,6 +32,15 @@
     }
   ],
   "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "X-Accel-Buffering",
+          "value": "no"
+        }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [
