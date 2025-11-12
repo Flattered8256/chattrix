@@ -38,15 +38,11 @@ const authStore = useAuthStore();
 
 
 const userAvatar = computed(() => {
-  if (props.user && props.user.user_avatar) {
-    const avatarUrl = props.user.user_avatar.toString();
-    // 统一提取 /media/ 后的路径
-    if (avatarUrl.includes('/media/')) {
-      const pathAfterMedia = avatarUrl.split('/media/')[1];
-      return pathAfterMedia ? '/media/' + pathAfterMedia : '/media/default_avatar.png';
-    } 
-  }
+  const avatarUrl = props.user?.user_avatar || authStore.user?.user_avatar || '';
+    
+  return avatarUrl;
 });
+
 
 
 const username = computed(() => {
