@@ -9,29 +9,29 @@
       }
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "https://practical-becky-chattrix-f0677ddd.koyeb.app/api/$1",
+      "source": "/api/(.*)",
+      "destination": "https://practical-becky-chattrix-f0677ddd.koyeb.app/api/$1",
       "headers": {
         "X-Accel-Buffering": "no"
       }
     },
     {
-      "src": "/health",
-      "dest": "https://practical-becky-chattrix-f0677ddd.koyeb.app/health"
+      "source": "/health",
+      "destination": "https://practical-becky-chattrix-f0677ddd.koyeb.app/health"
     },
     {
-      "src": "/media/(.*)",
-      "dest": "https://res.cloudinary.com/dcwkrjzww/$1"
+      "source": "/media/(.*)",
+      "destination": "https://res.cloudinary.com/dcwkrjzww/$1"
     },
     {
-      "src": "/static/(.*)",
-      "dest": "https://practical-becky-chattrix-f0677ddd.koyeb.app/static/$1"
+      "source": "/static/(.*)",
+      "destination": "https://practical-becky-chattrix-f0677ddd.koyeb.app/static/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
