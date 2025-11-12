@@ -1,0 +1,56 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "https://practical-becky-chattrix-f0677ddd.koyeb.app/api/$1",
+      "headers": {
+        "X-Accel-Buffering": "no"
+      }
+    },
+    {
+      "src": "/health",
+      "dest": "https://practical-becky-chattrix-f0677ddd.koyeb.app/health"
+    },
+    {
+      "src": "/media/(.*)",
+      "dest": "https://res.cloudinary.com/dcwkrjzww/$1"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "https://practical-becky-chattrix-f0677ddd.koyeb.app/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ]
+}
