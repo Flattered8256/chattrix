@@ -38,7 +38,7 @@ const authStore = useAuthStore();
 
 
 const userAvatar = computed(() => {
-  const avatarUrl = props.user?.user_avatar || authStore.user?.user_avatar || '';
+  const avatarUrl = props.user?.user_avatar || '';
     
   return avatarUrl;
 });
