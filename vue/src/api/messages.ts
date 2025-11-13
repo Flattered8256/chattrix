@@ -1,4 +1,4 @@
-import { get, post, type ApiResponse } from './https';
+import { get, post,uploadFile, type ApiResponse } from './https';
 import { handleApiError } from './error';
 import type { User } from './auth';
 
@@ -51,13 +51,10 @@ export async function sendMessage(
       formData.append('file', request.file);
       // 添加filename字段
       formData.append('filename', request.file.name);
+      return await uploadFile<Message>(`api/messages/${roomId}/`, formData);
     }
     
-    return await post(`api/messages/${roomId}/`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
+    return await post(`api/messages/${roomId}/`, formData);
   } catch (error) {
     throw handleApiError(error);
   }
