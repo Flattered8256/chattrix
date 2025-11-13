@@ -80,15 +80,9 @@ const toastMessage = ref('');
 const toastType = ref<'success' | 'error'>('success');
 
 // 计算属性
-// 计算属性
 const userAvatar = computed(() => {
   const avatarUrl = props.user?.user_avatar || authStore.user?.user_avatar || '';
-  
-  // 如果头像URL存在但不是完整URL且不以'/media/'开头，则使用代理路径
-  if (avatarUrl && !avatarUrl.startsWith('http')) {
-    return avatarUrl.startsWith('/media/') ? avatarUrl : `/media/${avatarUrl}`;
-  }
-  
+    
   return avatarUrl;
 });
 

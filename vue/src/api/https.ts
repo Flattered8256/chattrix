@@ -180,17 +180,20 @@ export async function remove<T>(url: string, config?: AxiosRequestConfig): Promi
 /**
  * 上传文件封装
  */
-export async function uploadFile<T>(url: string, file: File, fieldName: string = 'file'): Promise<ApiResponse<T>> {
-  const formData = new FormData();
-  formData.append(fieldName, file);
-
+export async function uploadFile<T>(
+  url: string, 
+  formData: FormData, 
+  timeout: number = 1000 * 60 * 5 // 默认 5 分钟超时
+): Promise<ApiResponse<T>> {
   const response = await httpClient.post<ApiResponse<T>>(url, formData, {
+    timeout, // 只设置超时
     headers: {
       'Content-Type': 'multipart/form-data',
     },
   });
   return response.data;
 }
+
 
 /**
  * 下载文件封装
