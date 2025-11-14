@@ -1,1 +1,0 @@
-import{d as t,c as a,b as o,m as s,o as c,_ as n}from"./index-CrttWU6e.js";const _={class:"auth-layout"},r={class:"auth-container"},d=t({__name:"auth",setup(u){return(e,i)=>(c(),a("div",_,[o("div",r,[s(e.$slots,"default",{},void 0)])]))}}),p=n(d,[["__scopeId","data-v-74a10e56"]]);export{p as A};
