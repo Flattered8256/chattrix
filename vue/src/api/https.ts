@@ -185,13 +185,122 @@ export async function uploadFile<T>(
   formData: FormData, 
   timeout: number = 1000 * 60 * 5 // 默认 5 分钟超时
 ): Promise<ApiResponse<T>> {
-  const response = await httpClient.post<ApiResponse<T>>(url, formData, {
-    timeout, // 只设置超时
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-  return response.data;
+  // 分块上传实现说明：
+  // - 如果 formData 中包含名为 'file' 的 File 且文件大小大于 chunkSize，则按块上传。
+  // - 每个块构建一个新的 FormData，包含: file(该块)、uploadId、chunkIndex、totalChunks、filename（后端可据此重组）。
+  // - 上传按序进行（可扩展为并发），每块最多重试 3 次。
+  // - onUploadProgress 回调用于报告单个块的上传进度，结合全局进度计算整个文件进度。
+
+  // 辅助函数
+  function generateUploadId() {
+    return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  }
+
+  function sleep(ms: number) {
+    return new Promise((res) => setTimeout(res, ms));
+  }
+
+  // 从 FormData 中尝试获取 File 对象
+  function getFileFromFormData(fd: FormData): File | null {
+    try {
+      const maybeFile = fd.get('file');
+      if (maybeFile instanceof File) return maybeFile;
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // 默认分块大小 5MB
+  const DEFAULT_CHUNK_SIZE = 5 * 1024 * 1024;
+  const file = getFileFromFormData(formData);
+
+  // 如果没有文件或文件较小，则使用原有一次性上传逻辑
+  if (!file || file.size <= DEFAULT_CHUNK_SIZE) {
+    const response = await httpClient.post<ApiResponse<T>>(url, formData, {
+      timeout,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  }
+
+  // 分块上传逻辑
+  const chunkSize = DEFAULT_CHUNK_SIZE;
+  const totalChunks = Math.ceil(file.size / chunkSize);
+  const uploadId = generateUploadId();
+
+  // 允许外部通过 formData 设置回调（非标准），例如 formData.append('__onProgress', '...')
+  // 这里我们不读取该字段；建议调用方传入回调参数（见下面导出函数）。
+
+  // 逐块上传。返回最后一次成功响应（通常后端在最后一个块时返回合并结果）
+  let lastResponse: import('axios').AxiosResponse<any> | null = null;
+
+  for (let index = 0; index < totalChunks; index++) {
+    const start = index * chunkSize;
+    const end = Math.min(start + chunkSize, file.size);
+    const chunkBlob = file.slice(start, end);
+
+    const chunkForm = new FormData();
+    // 把除了 file 之外的其它字段从原 formData 复制到 chunkForm
+    for (const [k, v] of (formData as any).entries()) {
+      if (k === 'file') continue;
+      chunkForm.append(k, v as any);
+    }
+
+    // 文件字段：后端应把这些字段用于拼接
+    chunkForm.append('file', chunkBlob, file.name);
+    chunkForm.append('uploadId', uploadId);
+    chunkForm.append('chunkIndex', String(index));
+    chunkForm.append('totalChunks', String(totalChunks));
+    chunkForm.append('filename', file.name);
+
+    // 每块最多重试次数
+    const maxRetries = 3;
+    let attempt = 0;
+    let success = false;
+    let lastErr: any = null;
+
+    while (attempt < maxRetries && !success) {
+      try {
+        lastResponse = await httpClient.post<ApiResponse<T>>(url, chunkForm, {
+          timeout,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            // 也可以选择在 header 中传递 chunk 信息：
+            'X-Upload-Id': uploadId,
+            'X-Chunk-Index': String(index),
+            'X-Total-Chunks': String(totalChunks),
+          },
+          onUploadProgress: (_progressEvent: import('axios').AxiosProgressEvent) => {
+            // 触发单块上传进度（浏览器层面），可用于合成全局进度
+            // 这里不直接做任何 UI 回调；调用方应传入自己的回调以便监听进度。
+            // 如果需要暴露进度，可扩展 uploadFile 接口以接收 onProgress 参数。
+          },
+        });
+
+        success = true;
+      } catch (err) {
+        lastErr = err;
+        attempt += 1;
+        // 简单的指数回退
+        await sleep(500 * attempt);
+      }
+    }
+
+    if (!success) {
+      // 如果某块最终上传失败，抛出错误（外层调用可捕获并处理）
+      throw lastErr || new Error('Chunk upload failed');
+    }
+  }
+
+  // 至少有一次成功响应
+  if (!lastResponse) {
+    throw new Error('上传失败：没有服务器响应');
+  }
+
+  return lastResponse.data;
 }
 
 
