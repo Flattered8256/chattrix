@@ -27,15 +27,16 @@
     </div>
     
     <!-- 文件消息 -->
-    <div v-else-if="message.messages_type === 'file'" class="media-container">
+    <div v-else-if="message.messages_type === 'file'" class="media-container" :class="{ 'media-container-sent': isSent }">
       <a 
         :href="message.file" 
         :download="message.filename || ''" 
-        class="file-download"
+        class="file-download" 
+        :class="{ 'file-download-sent': isSent }"
       >
         <img src="../../assets/文件.svg" alt="文件" class="file-icon-svg" />
       </a>
-      <span v-if="message.filename" class="media-filename">
+      <span v-if="message.filename" class="media-filename" :class="{ 'media-filename-sent': isSent }">
         {{ truncateFilename(message.filename) }}
       </span>
     </div>
@@ -210,6 +211,19 @@ const handleMediaClick = (url: string, type: 'image' | 'video') => {
   text-align: center;
 }
 
+/* 发送方文件消息样式 */
+.media-container-sent {
+  align-self: flex-end;
+}
+
+.file-download-sent {
+  margin-left: auto;
+}
+
+.media-filename-sent {
+  text-align: right;
+}
+
 /* 夜间模式样式 */
 @media (prefers-color-scheme: dark) {
   /* 接收方气泡样式 - 夜间模式 */
@@ -245,6 +259,16 @@ const handleMediaClick = (url: string, type: 'image' | 'video') => {
   
   .media-filename {
     color: #aaa;
+  }
+  
+  /* 夜间模式发送方文件消息样式 */
+  .file-download-sent {
+    color: #60a5fa;
+    background-color: #2a2a2a;
+  }
+  
+  .file-download-sent:hover {
+    background-color: #333;
   }
 }
 </style>
