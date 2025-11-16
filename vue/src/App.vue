@@ -43,21 +43,17 @@ const initializeStores = async () => {
   }
 }
 onMounted(() => {
-  authStore.initializeAuth()
-  
-  // 检查用户是否已登录，如果已登录则初始化好友数据
-  if (authStore.isAuthenticated) {
-    initializeStores()
-  }
+  authStore.initializeAuth()  // 只负责认证初始化
 })
 
 watch(
   () => authStore.isAuthenticated,
-  (newValue, oldValue) => {
-    if (newValue && !oldValue) {
+  (newValue) => {
+    if (newValue) {           // 统一在这里处理数据初始化
       initializeStores()
     }
-  }
+  },
+  { immediate: true }
 )
 </script>
 
