@@ -366,8 +366,12 @@ const handleNewMessage = (messageData: Message) => {
     messages.value[roomId] = []
   }
   
-  // 添加新消息
-  messages.value[roomId].push(messageData)
+  // 防止重复消息：检查消息ID是否已存在
+  const messageExists = messages.value[roomId].some(msg => msg.id && msg.id === messageData.id);
+  if (!messageExists) {
+    // 只有当消息不存在时才添加
+    messages.value[roomId].push(messageData);
+  }
   
   // 处理消息已读状态
   // 正确比较发送者ID与当前用户ID，只有他人发送的消息才需要处理已读状态
