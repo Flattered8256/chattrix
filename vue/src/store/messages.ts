@@ -371,16 +371,15 @@ const handleNewMessage = (messageData: Message) => {
   if (!messageExists) {
     // 只有当消息不存在时才添加
     messages.value[roomId].push(messageData);
-  }
-  
-  // 处理消息已读状态
-  // 正确比较发送者ID与当前用户ID，只有他人发送的消息才需要处理已读状态
-  if (messageData.sender?.id !== authStore.user?.id) {
-    // 只有当用户真正在聊天页面查看该房间时，才标记消息为已读
-    // 注意：这里不再直接标记已读，已读标记由processCachedMessages处理
-    if (!(roomId === chatStore.currentChatRoomId && isUserViewingChat.value)) {
-      // 如果不在该房间或用户不在聊天页面，增加未读计数
-      incrementUnreadMessages(roomId);
+    // 处理消息已读状态
+    // 正确比较发送者ID与当前用户ID，只有他人发送的消息才需要处理已读状态
+    if (messageData.sender?.id !== authStore.user?.id) {
+      // 只有当用户真正在聊天页面查看该房间时，才标记消息为已读
+      // 注意：这里不再直接标记已读，已读标记由processCachedMessages处理
+      if (!(roomId === chatStore.currentChatRoomId && isUserViewingChat.value)) {
+        // 如果不在该房间或用户不在聊天页面，增加未读计数
+        incrementUnreadMessages(roomId);
+      }
     }
   }
 }
