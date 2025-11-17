@@ -15,6 +15,9 @@
       <div v-if="hasMoreMessages" class="no-more-messages">
         没有更多消息了
       </div>
+      <div v-if="isLoadingMore" class="loading-more">
+        加载消息中...
+      </div>
       
       <!-- 消息列表 -->
       <template v-for="message in messages" :key="message.id">
@@ -436,15 +439,7 @@ defineExpose({
   .loading-more,
   .no-more-messages {
     color: #aaa;
-  }
-  
-  .loading-more {
-    background-color: #2a2a2a;
-  }
-  
-  .no-more-messages {
-    background-color: #333;
-    color: #aaa;
+    background-color: transparent;
   }
 }
 </style>
