@@ -10,10 +10,7 @@
       <p>从左侧列表选择一个聊天开始对话</p>
     </div>
     <div v-else class="messages-list">
-      <!-- 加载更多提示 -->
-      <div v-if="isLoadingMore" class="loading-more">
-        加载更多消息中...
-      </div>
+
       
       <div v-if="hasMoreMessages" class="no-more-messages">
         没有更多消息了
@@ -62,6 +59,8 @@ const messagesContainer = ref<HTMLDivElement | null>(null);
 // 组件状态 - 新增
 const isLoadingMore = ref(false);
 const lastAnchorMessageId = ref<number | null>(null);
+const lastLoadMoreTime = ref<number | null>(null); // 防抖时间记录
+const loadMoreDebounceTimer = ref<number | null>(null); // 防抖定时器ID
 
 // 计算属性
 const currentUserId = computed(() => authStore.user?.id || 0);
@@ -100,7 +99,7 @@ const loadMessages = async (roomId: number) => {
   }
 };
 
-// 加载更多消息 - 新增（从 chat.vue 移动过来）
+// 加载更多消息 - 优化版本，防止屏幕闪动
 const loadMoreMessages = async () => {
   if (!props.currentChatRoom || isLoadingMore.value) return;
   
@@ -109,31 +108,73 @@ const loadMoreMessages = async () => {
   
   if (!pagination || !pagination.hasMore || pagination.isLoadingMore) return;
   
-  // 记录当前锚点消息ID
+  // 记录当前锚点消息ID和滚动位置
   lastAnchorMessageId.value = getAnchorMessageId();
-  console.log('加载前锚点消息ID:', lastAnchorMessageId.value);
   
+  // 记录加载前的容器信息
+  const container = messagesContainer.value;
+  if (!container) return;
+  
+
+
+
+  
+  // 预计算并保存可见区域的关键信息
+  const oldScrollTop = container.scrollTop;
+  const oldScrollHeight = container.scrollHeight;
+
+  // 关键优化：在数据加载期间保持容器最小高度，防止闪烁
+  container.style.minHeight = `${container.offsetHeight}px`;
+
   isLoadingMore.value = true;
+  lastLoadMoreTime.value = Date.now();
   
   try {
+    // 防止在数据加载期间发生布局抖动
+    container.style.willChange = 'scroll-position';
+    container.style.pointerEvents = 'none'; // 临时禁用滚动交互以避免冲突
+    
+
     const result = await messagesStore.getRoomMessages(roomId, true);
+    
     if (!result.success && result.error) {
       console.error('加载更多消息失败:', result.error);
     } else {
-      // 等待DOM更新
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // 关键优化：使用requestAnimationFrame确保在DOM更新后立即调整滚动位置
       await nextTick();
-      await new Promise(resolve => setTimeout(resolve, 50));
       
-      if (lastAnchorMessageId.value) {
-        await restoreScrollPosition(lastAnchorMessageId.value);
-      } else {
-        // 备用方案
-        fallbackScrollRestore();
-      }
+      // 计算新的滚动位置，精确补偿新加载消息的高度
+      const newScrollHeight = container.scrollHeight;
+      const heightDifference = newScrollHeight - oldScrollHeight;
+      
+      // 强制重绘以确保新消息被正确渲染
+      container.style.transform = 'translateZ(0)';
+      
+      // 关键优化：在DOM更新后立即设置滚动位置，不等待动画帧
+      requestAnimationFrame(() => {
+        // 直接设置滚动位置，补偿新加载的消息高度
+        container.scrollTop = oldScrollTop + heightDifference;
+        
+        // 如果有锚点消息，进行精确调整
+        if (lastAnchorMessageId.value) {
+          // 立即进行精确调整，不使用setTimeout
+          restoreScrollPosition(lastAnchorMessageId.value!);
+        }
+        
+        // 恢复容器的交互性和样式
+        container.style.pointerEvents = '';
+        container.style.willChange = '';
+        container.style.transform = '';
+        container.style.minHeight = '';
+      });
     }
   } catch (error: any) {
     console.error('加载更多消息失败:', error);
+    // 发生错误时也要恢复容器状态
+    container.style.pointerEvents = '';
+    container.style.willChange = '';
+    container.style.transform = '';
+    container.style.minHeight = '';
   } finally {
     isLoadingMore.value = false;
     lastAnchorMessageId.value = null;
@@ -146,7 +187,18 @@ const handleScroll = () => {
   const { scrollTop } = messagesContainer.value;
   // 当滚动到距离顶部200px时开始加载更多消息
   if (scrollTop < 200) {
-    loadMoreMessages();  // 直接调用内部方法，不再emit
+    // 添加防抖，避免频繁触发加载
+    if (loadMoreDebounceTimer.value) {
+      clearTimeout(loadMoreDebounceTimer.value);
+    }
+    
+    loadMoreDebounceTimer.value = window.setTimeout(() => {
+      // 检查是否已经在短时间内触发过加载
+      const now = Date.now();
+      if (!lastLoadMoreTime.value || (now - lastLoadMoreTime.value > 500)) {
+        loadMoreMessages();  // 直接调用内部方法，不再emit
+      }
+    }, 300); // 300ms防抖延迟
   }
 };
 
@@ -166,42 +218,39 @@ const scrollToBottom = () => {
   }
 };
 
-// 基于锚点消息恢复滚动位置
+// 基于锚点消息恢复滚动位置 - 优化版本，防止闪烁
 const restoreScrollPosition = async (anchorMessageId: number) => {
   if (!messagesContainer.value) return;
   
   await nextTick();
   
-  const anchorElement = document.getElementById(`message-${anchorMessageId}`);
+  const container = messagesContainer.value;
+  const anchorElement = document.getElementById(`message-${anchorMessageId}`) as HTMLElement;
+  
   if (!anchorElement) {
     console.warn('锚点元素未找到，使用备用方案');
     fallbackScrollRestore();
     return;
   }
   
-  const container = messagesContainer.value;
-  const anchorRect = anchorElement.getBoundingClientRect();
-  const containerRect = container.getBoundingClientRect();
+  // 关键优化：直接设置滚动位置，不使用平滑滚动避免闪烁
+  // 获取锚点元素相对于容器的位置
+  const targetScrollTop = anchorElement.offsetTop;
   
-  const currentAnchorOffset = anchorRect.top - containerRect.top;
-  const targetScrollTop = anchorElement.offsetTop - currentAnchorOffset;
-  
+  // 立即设置滚动位置，不使用动画
   container.scrollTop = targetScrollTop;
   
-  setTimeout(() => {
-    if (messagesContainer.value) {
-      const finalAnchorElement = document.getElementById(`message-${anchorMessageId}`);
-      if (finalAnchorElement) {
-        const finalAnchorRect = finalAnchorElement.getBoundingClientRect();
-        const finalContainerRect = messagesContainer.value.getBoundingClientRect();
-        const finalOffset = finalAnchorRect.top - finalContainerRect.top;
-        
-        if (Math.abs(finalOffset - currentAnchorOffset) > 10) {
-          messagesContainer.value.scrollTop = finalAnchorElement.offsetTop - currentAnchorOffset;
-        }
-      }
+  // 强制重绘以确保位置正确
+  container.style.transform = 'translateZ(0)';
+  
+  // 使用requestAnimationFrame确保滚动位置稳定
+  requestAnimationFrame(() => {
+    // 进行最终的微调，确保位置精确
+    const finalScrollTop = anchorElement.offsetTop;
+    if (Math.abs(container.scrollTop - finalScrollTop) > 3) {
+      container.scrollTop = finalScrollTop;
     }
-  }, 150);
+  });
 };
 
 // 备用滚动恢复方案
@@ -213,30 +262,41 @@ const fallbackScrollRestore = () => {
   if (messages.length > 10) {
     const targetMessage = messages[10] as HTMLElement;
     if (targetMessage) {
-      container.scrollTop = targetMessage.offsetTop - 50;
+      // 计算并设置滚动位置，确保目标消息保持在可视区域内
+      const containerHeight = container.clientHeight;
+      container.scrollTop = (targetMessage as HTMLElement).offsetTop - containerHeight * 0.3;
     }
   }
 };
 
-// 获取锚点消息ID
+// 获取锚点消息ID - 优化版本，提高锚点准确性
 const getAnchorMessageId = (): number | null => {
   if (!messagesContainer.value || !messages.value.length) return null;
   
   const container = messagesContainer.value;
-  const containerRect = container.getBoundingClientRect();
-  const containerTop = containerRect.top;
   
-  for (const message of messages.value) {
-    const element = document.getElementById(`message-${message.id}`);
-    if (element) {
-      const elementRect = element.getBoundingClientRect();
-      if (elementRect.top >= containerTop && elementRect.top < containerTop + container.clientHeight * 0.3) {
-        return message.id;
+  // 关键优化：直接获取第一个可见消息作为锚点，而不是基于ID估算
+  // 这样可以确保锚点消息在DOM中确实可见
+  const messageElements = document.querySelectorAll('.message-item');
+  
+  if (messageElements.length === 0) return messages.value[0].id;
+  
+  // 获取第一个可见区域的消息作为锚点
+  for (const element of messageElements) {
+    const rect = element.getBoundingClientRect();
+    // 检查消息是否在容器的可见区域内
+    if (rect.top >= 0 && rect.top <= container.clientHeight) {
+      // 从元素ID中提取消息ID
+      const idMatch = element.id.match(/^message-(\d+)$/);
+      if (idMatch) {
+        return Number(idMatch[1]);
       }
+      break;
     }
   }
   
-  return messages.value[0]?.id || null;
+  // 回退方案：如果找不到可见消息，返回第一个消息ID
+  return messages.value[0].id;
 };
 
 // 监听当前聊天房间变化
@@ -276,10 +336,15 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  if (messagesContainer.value) {
-    messagesContainer.value.removeEventListener('scroll', handleScroll);
-  }
-});
+    if (messagesContainer.value) {
+      messagesContainer.value.removeEventListener('scroll', handleScroll);
+    }
+    
+    // 清理定时器
+    if (loadMoreDebounceTimer.value) {
+      clearTimeout(loadMoreDebounceTimer.value);
+    }
+  });
 
 // 暴露方法给父组件
 defineExpose({
@@ -298,6 +363,25 @@ defineExpose({
   overscroll-behavior: contain;
   padding: 16px;
   background-color: #fafafa;
+  -webkit-transform: translateZ(0); /* 硬件加速，改善移动设备渲染 */
+  transform: translateZ(0);
+  will-change: scroll-position; /* 告诉浏览器我们将改变滚动位置 */
+  /* 添加滚动行为优化 */
+  scroll-behavior: auto; /* 避免默认的平滑滚动导致的额外抖动 */
+  contain: layout style; /* 提高渲染性能，减少布局抖动 */
+}
+
+/* 确保消息项在移动设备上正确渲染 */
+.messages-list {
+  min-height: 1px; /* 防止高度计算问题 */
+  /* 优化消息列表的渲染性能 */
+  contain: layout; /* 限制布局影响范围 */
+}
+
+/* 优化消息项的渲染性能 */
+:deep(.message-item) {
+  will-change: auto; /* 避免不必要的重绘 */
+  contain: style; /* 限制样式影响范围 */
 }
 
 .loading-messages,
