@@ -10,12 +10,12 @@
       <p>从左侧列表选择一个聊天开始对话</p>
     </div>
     <div v-else class="messages-list">
-
-      
+      <!-- 将加载提示移到消息列表之前，但使用绝对定位避免影响布局 -->
       <div v-if="hasMoreMessages" class="no-more-messages">
         没有更多消息了
       </div>
-      <div v-if="isLoadingMore" class="loading-more">
+      <!-- 绝对定位的加载提示，不会影响消息布局 -->
+      <div v-if="isLoadingMore" class="loading-more absolute-position">
         加载消息中...
       </div>
       
@@ -118,19 +118,16 @@ const loadMoreMessages = async () => {
   const container = messagesContainer.value;
   if (!container) return;
   
-
-
-
-  
   // 预计算并保存可见区域的关键信息
   const oldScrollTop = container.scrollTop;
   const oldScrollHeight = container.scrollHeight;
-
-  // 关键优化：在数据加载期间保持容器最小高度，防止闪烁
-  container.style.minHeight = `${container.offsetHeight}px`;
-
+  
+  // 立即设置加载状态，不等待请求完成
   isLoadingMore.value = true;
   lastLoadMoreTime.value = Date.now();
+  
+  // 关键优化：在数据加载期间保持容器最小高度，防止闪烁
+  container.style.minHeight = `${container.offsetHeight}px`;
   
   try {
     // 防止在数据加载期间发生布局抖动
@@ -145,13 +142,13 @@ const loadMoreMessages = async () => {
     } else {
       // 关键优化：使用requestAnimationFrame确保在DOM更新后立即调整滚动位置
       await nextTick();
+       
+      // 强制重绘以确保新消息被正确渲染
+      container.style.transform = 'translateZ(0)';
       
       // 计算新的滚动位置，精确补偿新加载消息的高度
       const newScrollHeight = container.scrollHeight;
       const heightDifference = newScrollHeight - oldScrollHeight;
-      
-      // 强制重绘以确保新消息被正确渲染
-      container.style.transform = 'translateZ(0)';
       
       // 关键优化：在DOM更新后立即设置滚动位置，不等待动画帧
       requestAnimationFrame(() => {
@@ -398,16 +395,35 @@ defineExpose({
   font-size: 14px;
 }
 
-.loading-more,
 .no-more-messages {
-  margin: 10px 0;
-  border-radius: 10px;
-  font-size: 12px;
-}
+    margin: 10px 0;
+    border-radius: 10px;
+    font-size: 12px;
+  }
 
-.loading-more {
-  background-color: #f8f9fa;
-}
+
+
+  /* 绝对定位的加载提示，避免影响消息布局 */
+  .loading-more.absolute-position {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    border-radius: 0;
+    padding: 8px 0;
+    z-index: 10;
+  }
+
+
+
+  /* 响应式调整 */
+  @media (max-width: 767px) {
+    .loading-more.absolute-position {
+      padding: 6px 0;
+      font-size: 11px;
+    }
+  }
 
 .no-more-messages {
   background-color: #f0f0f0;
