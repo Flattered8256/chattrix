@@ -268,12 +268,14 @@ const initializeUnreadCounts = async () => {
 
 
   // 新增：加载所有房间的历史消息
-  const loadAllRoomsMessages = () => {
+  const loadAllRoomsMessages = async () => {
+    const promises: Promise<any>[] = [];
+    
     // 遍历所有私有聊天房间
     chatStore.privateChatRooms?.forEach(room => {
       // 检查是否需要加载消息（如果该房间还没有消息数据）
       if (!messages.value[room.id] || messages.value[room.id].length === 0) {
-        getRoomMessages(room.id)
+        promises.push(getRoomMessages(room.id))
       }
     })
     
@@ -281,9 +283,12 @@ const initializeUnreadCounts = async () => {
     chatStore.groupChatRooms?.forEach(room => {
       // 检查是否需要加载消息（如果该房间还没有消息数据）
       if (!messages.value[room.id] || messages.value[room.id].length === 0) {
-        getRoomMessages(room.id)
+        promises.push(getRoomMessages(room.id))
       }
     })
+    
+    // 等待所有消息加载完成
+    await Promise.all(promises);
   }
     // 连接到聊天室WebSocket
   const connectToChatRoomWebSocket = (roomId: number) => {
@@ -402,7 +407,7 @@ const processCachedMessages = async (roomId: number) => {
     const nonSelfMessages = cachedMessages.filter(msg => 
       msg.sender?.id !== authStore.user?.id && msg.id
     ).sort((a, b) => (a.id || 0) - (b.id || 0));
-    
+      
     // 处理所有缓存的消息，添加到消息列表
     cachedMessages.forEach(messageData => {
       handleNewMessage(messageData);
@@ -432,9 +437,9 @@ const processCachedMessages = async (roomId: number) => {
 
   const initStore = async () => {
     if (authStore.isAuthenticated) {
-      connectAllChatRooms()
-      loadAllRoomsMessages()
+      await loadAllRoomsMessages()
       initializeUnreadCounts()
+      connectAllChatRooms()
     }
   }
 
