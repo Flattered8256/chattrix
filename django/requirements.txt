@@ -6,8 +6,7 @@ channels==4.0.0
 daphne==4.0.0
 Pillow>=10.4.0
 jsonschema==4.25.1
-daphne==4.0.0
 channels_redis>=4.0
 gunicorn==21.2.0
 uvicorn[standard]==0.27.0
-psycopg2>=2.9.11
+psycopg2-binary>=2.9.11
