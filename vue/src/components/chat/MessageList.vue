@@ -397,7 +397,7 @@ defineExpose({
 
 .no-more-messages {
     margin: 10px 0;
-    border-radius: 10px;
+    
     font-size: 12px;
   }
 
@@ -426,7 +426,7 @@ defineExpose({
   }
 
 .no-more-messages {
-  background-color: #f0f0f0;
+
   color: #666;
 }
 
