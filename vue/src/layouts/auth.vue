@@ -14,18 +14,16 @@
 .auth-layout {
   min-height: 100vh;
   width: 100%;
-  background-color: #e3f2fd; /* 浅蓝色背景 */
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;
-  padding: 0;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .auth-container {
   width: 100%;
-  max-width: 400px; /* 限制表单最大宽度 */
-  padding: 20px;
-  box-sizing: border-box;
+  max-width: 450px;
 }
 </style>
