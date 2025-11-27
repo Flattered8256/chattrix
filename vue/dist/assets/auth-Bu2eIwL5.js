@@ -1,0 +1,1 @@
+import{d as t,c as o,b as s,m as a,o as c,_ as n}from"./index-ayPKH_lX.js";const _={class:"auth-layout"},r={class:"auth-container"},d=t({__name:"auth",setup(u){return(e,i)=>(c(),o("div",_,[s("div",r,[a(e.$slots,"default",{},void 0)])]))}}),p=n(d,[["__scopeId","data-v-4472c22e"]]);export{p as A};

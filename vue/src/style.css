@@ -34,6 +34,19 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* 颜色变量 */
+  --primary-color: #409eff;
+  --primary-hover: #66b1ff;
+  --primary-disabled: #a0cfff;
+  --background-color: #242424;
+  --surface-color: #333333;
+  --border-color: #444444;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --error-color: #ff4d4f;
+  --success-color: #52c41a;
+  --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
 
@@ -43,18 +56,40 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
+    
+    /* 浅色模式颜色变量 */
+    --background-color: #ffffff;
+    --surface-color: #ffffff;
+    --border-color: #dddddd;
+    --text-color: #213547;
+    --text-secondary: #666666;
+    --shadow-color: rgba(0, 0, 0, 0.1);
   }
   a:hover {
     color: #747bff;
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+/* 深色模式特定样式 */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--background-color);
+  }
+  
+  /* 确保表单元素在深色模式下正确显示 */
+  input, button, textarea, select {
+    color-scheme: dark;
   }
 }
 

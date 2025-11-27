@@ -131,15 +131,16 @@ const handleLogin = async () => {
   max-width: 400px;
   margin: 0 auto;
   padding: 2rem;
-  background: #ffffff;
+  background: var(--surface-color);
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  transition: all 0.3s ease;
 }
 
 .form-title {
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--text-color);
   font-size: 1.5rem;
 }
 
@@ -150,30 +151,32 @@ const handleLogin = async () => {
 .form-label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #555;
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 .form-input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 1rem;
-  transition: border-color 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s;
   box-sizing: border-box;
+  background-color: var(--surface-color);
+  color: var(--text-color);
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #409eff;
+  border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.2);
 }
 
 .submit-button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #409eff;
+  background-color: var(--primary-color);
   color: white;
   border: none;
   border-radius: 4px;
@@ -184,11 +187,11 @@ const handleLogin = async () => {
 }
 
 .submit-button:hover:not(:disabled) {
-  background-color: #66b1ff;
+  background-color: var(--primary-hover);
 }
 
 .submit-button:disabled {
-  background-color: #a0cfff;
+  background-color: var(--primary-disabled);
   cursor: not-allowed;
 }
 
@@ -198,16 +201,24 @@ const handleLogin = async () => {
 }
 
 .redirect-text {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
 .redirect-link {
-  color: #409eff;
+  color: var(--primary-color);
   text-decoration: none;
 }
 
 .redirect-link:hover {
   text-decoration: underline;
+}
+
+/* 深色模式特定样式 */
+@media (prefers-color-scheme: dark) {
+  .form-input {
+    /* 确保输入框在深色模式下有正确的文本颜色 */
+    color-scheme: dark;
+  }
 }
 </style>
