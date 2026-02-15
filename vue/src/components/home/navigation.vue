@@ -45,8 +45,8 @@ const route = useRoute()
 
 // 计算是否显示联系人图标标徽
 const showContactsBadge = computed(() => {
-  // 只有当有未读好友消息且不在好友页面时才显示
-  return friendsStore.hasUnreadFriendMessages && route.path !== '/contacts'
+  // 只要有未读好友消息就显示
+  return friendsStore.hasUnreadFriendMessages
 })
 
 // 计算是否显示聊天图标标徽
@@ -69,10 +69,7 @@ const navItems = [
 
 // 处理导航点击事件
 const handleNavClick = (path: string) => {
-  // 当点击好友页面时，重置未读消息状态
-  if (path === '/contacts') {
-    friendsStore.resetUnreadFriendMessages()
-  }
+  // 不需要重置未读消息状态，保持未读标徽显示
 
 }
 </script>

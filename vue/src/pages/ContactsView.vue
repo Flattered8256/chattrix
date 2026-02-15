@@ -19,8 +19,7 @@ import { useFriendsStore } from '../store/friends'
 const friendsStore = useFriendsStore()
 
 onMounted(() => {
-  // 进入好友页面时，重置未读消息状态
-  friendsStore.resetUnreadFriendMessages()
+  // 不需要重置未读消息状态，保持未读标徽显示
 })
 </script>
 

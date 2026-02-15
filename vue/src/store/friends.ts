@@ -85,24 +85,13 @@ export const useFriendsStore = defineStore('friends', () => {
 // WebSocket消息处理函数
 const handleFriendMessage = (message: WebSocketMessage) => {
   
-  // 检查用户是否在好友页面
-  const isOnContactsPage = route.path === '/contacts'
-  
   switch (message.type) {
     case 'friend_accepted':
-      // 只有当用户不在好友页面时才增加未读消息计数
-      if (!isOnContactsPage) {
-        incrementUnreadFriendMessages()
-      }
       getFriends()
       messagesStore.RefreshNewChatRooms()
       break
     case 'friend_request':
-      // 处理收到好友请求
-      // 只有当用户不在好友页面时才增加未读消息计数
-      if (!isOnContactsPage) {
-        incrementUnreadFriendMessages()
-      }
+      // 处理收到好友请求，getFriendRequests会自动更新未读消息计数
       getFriendRequests()
       break
 
@@ -161,6 +150,9 @@ const handleFriendMessage = (message: WebSocketMessage) => {
     try {
       const response = await apiGetFriendRequests()
       friendRequests.value = response.data
+      // 计算pending状态的好友请求数量，更新未读消息计数
+      const pendingCount = friendRequests.value.filter(request => request.status === 'pending').length
+      unreadFriendMessagesCount.value = pendingCount
       return { success: true, data: friendRequests.value }
     } catch (err: any) {
       error.value = err.message || '获取好友请求列表失败'
@@ -202,6 +194,8 @@ const handleFriendMessage = (message: WebSocketMessage) => {
       }
       // 重新获取好友列表
       await getFriends()
+      // 重新获取好友请求列表，更新未读消息计数
+      await getFriendRequests()
       return { success: true }
     } catch (err: any) {
       error.value = err.message || '接受好友请求失败'
@@ -223,6 +217,8 @@ const handleFriendMessage = (message: WebSocketMessage) => {
       if (request) {
         request.status = 'rejected'
       }
+      // 重新获取好友请求列表，更新未读消息计数
+      await getFriendRequests()
       return { success: true }
     } catch (err: any) {
       error.value = err.message || '拒绝好友请求失败'
