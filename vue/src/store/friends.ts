@@ -21,7 +21,6 @@ import {
   getBlockedFriends as apiGetBlockedFriends,
 } from '../api/friends'
 import { wsService, type WebSocketMessage } from '../api/webosckets'
-import { useRoute } from 'vue-router'
 import { useMessagesStore } from './messages'
 
 export const useFriendsStore = defineStore('friends', () => {
@@ -36,7 +35,6 @@ export const useFriendsStore = defineStore('friends', () => {
   const error = ref<string>('')  
    // 添加未读消息计数
   const unreadFriendMessagesCount = ref<number>(0)  
-  const route = useRoute()
   const messagesStore = useMessagesStore()
   
   // 计算属性

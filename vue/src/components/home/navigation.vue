@@ -10,7 +10,7 @@
           :to="item.path" 
           class="nav-link"
           :class="{ active: $route.path === item.path }"
-          @click="handleNavClick(item.path)"
+          @click="handleNavClick()"
         >
           <span class="nav-icon">
             <!-- 使用导入的SVG图标 -->
@@ -34,14 +34,12 @@
 <script setup lang="ts">
 import { useFriendsStore } from '../../store/friends'
 import { useMessagesStore } from '../../store/messages'
-import { useRoute } from 'vue-router'
 import { computed } from 'vue' 
 import chatIcon from '@/assets/chat-dot-round.svg'
 import friendsIcon from '@/assets/好友.svg'
 import settingsIcon from '@/assets/设置.svg'
 const friendsStore = useFriendsStore()
 const messagesStore = useMessagesStore()
-const route = useRoute()
 
 // 计算是否显示联系人图标标徽
 const showContactsBadge = computed(() => {
@@ -68,7 +66,7 @@ const navItems = [
 ]
 
 // 处理导航点击事件
-const handleNavClick = (path: string) => {
+const handleNavClick = () => {
   // 不需要重置未读消息状态，保持未读标徽显示
 
 }

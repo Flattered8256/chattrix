@@ -14,9 +14,6 @@
 import SearchUser from '../components/auth/SearchUser.vue';
 import FriendsList from '../components/friends/FriendsList.vue';
 import { onMounted } from 'vue'
-import { useFriendsStore } from '../store/friends'
-
-const friendsStore = useFriendsStore()
 
 onMounted(() => {
   // 不需要重置未读消息状态，保持未读标徽显示
