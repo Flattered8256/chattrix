@@ -51,8 +51,8 @@ const showContactsBadge = computed(() => {
 
 // 计算是否显示聊天图标标徽
 const showChatBadge = computed(() => {
-  // 只有当有未读聊天消息且不在聊天页面时才显示
-  return messagesStore.hasUnreadMessages && route.path !== '/chat'
+  // 只要有未读聊天消息就显示
+  return messagesStore.hasUnreadMessages
 })
 
 // 计算总未读聊天消息数
