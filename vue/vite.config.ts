@@ -20,11 +20,6 @@ export default defineConfig({
         changeOrigin: true,
 
       },
-      '/admin': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-
-      },
        // 添加媒体文件路径的代理配置
       '/media': {
         target: 'http://localhost:8000',

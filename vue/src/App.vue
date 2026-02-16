@@ -18,6 +18,7 @@
 <script setup lang="ts">
 import { onMounted, watch } from 'vue'
 import { useAuthStore } from './store/auth'
+import { useSuperadminStore } from './store/superadmin'
 import { useFriendsStore } from './store/friends'
 import { useChatStore } from './store/chat'
 import { useMessagesStore } from './store/messages'
@@ -26,6 +27,7 @@ import MainNavigation from './components/home/navigation.vue'
 
 // 初始化认证状态
 const authStore = useAuthStore()
+const superadminStore = useSuperadminStore()
 const friendsStore = useFriendsStore()
 const chatStore = useChatStore()
 const messagesStore = useMessagesStore()
@@ -44,6 +46,7 @@ const initializeStores = async () => {
 }
 onMounted(() => {
   authStore.initializeAuth()  // 只负责认证初始化
+  superadminStore.initializeAuth()  // 初始化超级管理员认证
 })
 
 watch(
