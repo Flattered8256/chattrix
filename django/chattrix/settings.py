@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    "apps.superadmin",
     "apps.messages",
     "apps.accounts",
     "apps.friends",
